@@ -1,0 +1,644 @@
+{
+  "Districts": [
+    {
+      "districtName": "Eisenstadt(Stadt)",
+      "id": 1
+    },
+    {
+      "districtName": "Rust(Stadt)",
+      "id": 2
+    },
+    {
+      "districtName": "Eisenstadt-Umgebung",
+      "id": 3
+    },
+    {
+      "districtName": "Güssing",
+      "id": 4
+    },
+    {
+      "districtName": "Jennersdorf",
+      "id": 5
+    },
+    {
+      "districtName": "Mattersburg",
+      "id": 6
+    },
+    {
+      "districtName": "Neusiedl am See",
+      "id": 7
+    },
+    {
+      "districtName": "Oberpullendorf",
+      "id": 8
+    },
+    {
+      "districtName": "Oberwart",
+      "id": 9
+    },
+    {
+      "districtName": "Klagenfurt Stadt",
+      "id": 10
+    },
+    {
+      "districtName": "Villach Stadt",
+      "id": 11
+    },
+    {
+      "districtName": "Hermagor",
+      "id": 12
+    },
+    {
+      "districtName": "Klagenfurt Land",
+      "id": 13
+    },
+    {
+      "districtName": "Sankt Veit an der Glan",
+      "id": 14
+    },
+    {
+      "districtName": "Spittal an der Drau",
+      "id": 15
+    },
+    {
+      "districtName": "Villach Land",
+      "id": 16
+    },
+    {
+      "districtName": "Völkermarkt",
+      "id": 17
+    },
+    {
+      "districtName": "Wolfsberg",
+      "id": 18
+    },
+    {
+      "districtName": "Feldkirchen",
+      "id": 19
+    },
+    {
+      "districtName": "Krems an der Donau(Stadt)",
+      "id": 20
+    },
+    {
+      "districtName": "Sankt Pölten(Stadt)",
+      "id": 21
+    },
+    {
+      "districtName": "Waidhofen an der Ybbs(Stadt)",
+      "id": 22
+    },
+    {
+      "districtName": "Wiener Neustadt(Stadt)",
+      "id": 23
+    },
+    {
+      "districtName": "Amstetten",
+      "id": 24
+    },
+    {
+      "districtName": "Baden",
+      "id": 25
+    },
+    {
+      "districtName": "Bruck an der Leitha",
+      "id": 26
+    },
+    {
+      "districtName": "Gänserndorf",
+      "id": 27
+    },
+    {
+      "districtName": "Gmünd",
+      "id": 28
+    },
+    {
+      "districtName": "Hollabrunn",
+      "id": 29
+    },
+    {
+      "districtName": "Horn",
+      "id": 30
+    },
+    {
+      "districtName": "Korneuburg",
+      "id": 31
+    },
+    {
+      "districtName": "Krems(Land)",
+      "id": 32
+    },
+    {
+      "districtName": "Lilienfeld",
+      "id": 33
+    },
+    {
+      "districtName": "Melk",
+      "id": 34
+    },
+    {
+      "districtName": "Mistelbach",
+      "id": 35
+    },
+    {
+      "districtName": "Mödling",
+      "id": 36
+    },
+    {
+      "districtName": "Neunkirchen",
+      "id": 37
+    },
+    {
+      "districtName": "Sankt Pölten(Land)",
+      "id": 38
+    },
+    {
+      "districtName": "Scheibbs",
+      "id": 39
+    },
+    {
+      "districtName": "Tulln",
+      "id": 40
+    },
+    {
+      "districtName": "Waidhofen an der Thaya",
+      "id": 41
+    },
+    {
+      "districtName": "Wiener Neustadt(Land)",
+      "id": 42
+    },
+    {
+      "districtName": "Zwettl",
+      "id": 43
+    },
+    {
+      "districtName": "Linz(Stadt)",
+      "id": 44
+    },
+    {
+      "districtName": "Steyr(Stadt)",
+      "id": 45
+    },
+    {
+      "districtName": "Wels(Stadt)",
+      "id": 46
+    },
+    {
+      "districtName": "Braunau am Inn",
+      "id": 47
+    },
+    {
+      "districtName": "Eferding",
+      "id": 48
+    },
+    {
+      "districtName": "Freistadt",
+      "id": 49
+    },
+    {
+      "districtName": "Gmunden",
+      "id": 50
+    },
+    {
+      "districtName": "Grieskirchen",
+      "id": 51
+    },
+    {
+      "districtName": "Kirchdorf an der Krems",
+      "id": 52
+    },
+    {
+      "districtName": "Linz-Land",
+      "id": 53
+    },
+    {
+      "districtName": "Perg",
+      "id": 54
+    },
+    {
+      "districtName": "Ried im Innkreis",
+      "id": 55
+    },
+    {
+      "districtName": "Rohrbach",
+      "id": 56
+    },
+    {
+      "districtName": "Schärding",
+      "id": 57
+    },
+    {
+      "districtName": "Steyr-Land",
+      "id": 58
+    },
+    {
+      "districtName": "Urfahr-Umgebung",
+      "id": 59
+    },
+    {
+      "districtName": "Vöcklabruck",
+      "id": 60
+    },
+    {
+      "districtName": "Wels-Land",
+      "id": 61
+    },
+    {
+      "districtName": "Salzburg(Stadt)",
+      "id": 62
+    },
+    {
+      "districtName": "Hallein",
+      "id": 63
+    },
+    {
+      "districtName": "Salzburg-Umgebung",
+      "id": 64
+    },
+    {
+      "districtName": "Sankt Johann im Pongau",
+      "id": 65
+    },
+    {
+      "districtName": "Tamsweg",
+      "id": 66
+    },
+    {
+      "districtName": "Zell am See",
+      "id": 67
+    },
+    {
+      "districtName": "Graz(Stadt)",
+      "id": 68
+    },
+    {
+      "districtName": "Deutschlandsberg",
+      "id": 69
+    },
+    {
+      "districtName": "Graz-Umgebung",
+      "id": 70
+    },
+    {
+      "districtName": "Leibnitz",
+      "id": 71
+    },
+    {
+      "districtName": "Leoben",
+      "id": 72
+    },
+    {
+      "districtName": "Liezen",
+      "id": 73
+    },
+    {
+      "districtName": "Murau",
+      "id": 74
+    },
+    {
+      "districtName": "Voitsberg",
+      "id": 75
+    },
+    {
+      "districtName": "Weiz",
+      "id": 76
+    },
+    {
+      "districtName": "Murtal",
+      "id": 77
+    },
+    {
+      "districtName": "Bruck-Mürzzuschlag",
+      "id": 78
+    },
+    {
+      "districtName": "Hartberg-Fürstenfeld",
+      "id": 79
+    },
+    {
+      "districtName": "Südoststeiermark",
+      "id": 80
+    },
+    {
+      "districtName": "Innsbruck-Stadt",
+      "id": 81
+    },
+    {
+      "districtName": "Imst",
+      "id": 82
+    },
+    {
+      "districtName": "Innsbruck-Land",
+      "id": 83
+    },
+    {
+      "districtName": "Kitzbühel",
+      "id": 84
+    },
+    {
+      "districtName": "Kufstein",
+      "id": 85
+    },
+    {
+      "districtName": "Landeck",
+      "id": 86
+    },
+    {
+      "districtName": "Lienz",
+      "id": 87
+    },
+    {
+      "districtName": "Reutte",
+      "id": 88
+    },
+    {
+      "districtName": "Schwaz",
+      "id": 89
+    },
+    {
+      "districtName": "Bludenz",
+      "id": 90
+    },
+    {
+      "districtName": "Bregenz",
+      "id": 91
+    },
+    {
+      "districtName": "Dornbirn",
+      "id": 92
+    },
+    {
+      "districtName": "Feldkirch",
+      "id": 93
+    },
+    {
+      "districtName": "Wien",
+      "id": 94
+    }
+  ],
+  "States": [
+    {
+      "id": 1,
+      "stateName": "Burgenland"
+    },
+    {
+      "id": 2,
+      "stateName": "Kärnten"
+    },
+    {
+      "id": 3,
+      "stateName": "Niederösterreich"
+    },
+    {
+      "id": 4,
+      "stateName": "Oberösterreich"
+    },
+    {
+      "id": 5,
+      "stateName": "Salzburg"
+    },
+    {
+      "id": 6,
+      "stateName": "Steiermark"
+    },
+    {
+      "id": 7,
+      "stateName": "Tirol"
+    },
+    {
+      "id": 8,
+      "stateName": "Vorarlberg"
+    },
+    {
+      "id": 9,
+      "stateName": "Wien"
+    },
+    {
+      "id": 10,
+      "stateName": "Österreich"
+    }
+  ],
+  "WarnLevelDates": [
+    {
+      "Date": "2021-09-09",
+      "id": 1
+    },
+    {
+      "Date": "2021-09-02",
+      "id": 2
+    },
+    {
+      "Date": "2021-08-26",
+      "id": 3
+    },
+    {
+      "Date": "2021-08-19",
+      "id": 4
+    },
+    {
+      "Date": "2021-08-12",
+      "id": 5
+    },
+    {
+      "Date": "2021-08-05",
+      "id": 6
+    },
+    {
+      "Date": "2021-07-29",
+      "id": 7
+    },
+    {
+      "Date": "2021-07-22",
+      "id": 8
+    },
+    {
+      "Date": "2021-07-15",
+      "id": 9
+    },
+    {
+      "Date": "2021-07-08",
+      "id": 10
+    },
+    {
+      "Date": "2021-07-01",
+      "id": 11
+    },
+    {
+      "Date": "2021-06-24",
+      "id": 12
+    },
+    {
+      "Date": "2021-06-17",
+      "id": 13
+    },
+    {
+      "Date": "2021-06-10",
+      "id": 14
+    },
+    {
+      "Date": "2021-06-02",
+      "id": 15
+    },
+    {
+      "Date": "2021-05-27",
+      "id": 16
+    },
+    {
+      "Date": "2021-05-20",
+      "id": 17
+    },
+    {
+      "Date": "2021-05-12",
+      "id": 18
+    },
+    {
+      "Date": "2021-05-06",
+      "id": 19
+    },
+    {
+      "Date": "2021-04-29",
+      "id": 20
+    },
+    {
+      "Date": "2021-04-22",
+      "id": 21
+    },
+    {
+      "Date": "2021-04-15",
+      "id": 22
+    },
+    {
+      "Date": "2021-04-08",
+      "id": 23
+    },
+    {
+      "Date": "2021-03-31",
+      "id": 24
+    },
+    {
+      "Date": "2021-03-25",
+      "id": 25
+    },
+    {
+      "Date": "2021-03-18",
+      "id": 26
+    },
+    {
+      "Date": "2021-03-11",
+      "id": 27
+    },
+    {
+      "Date": "2021-03-04",
+      "id": 28
+    },
+    {
+      "Date": "2021-02-25",
+      "id": 29
+    },
+    {
+      "Date": "2021-02-18",
+      "id": 30
+    },
+    {
+      "Date": "2021-02-11",
+      "id": 31
+    },
+    {
+      "Date": "2021-02-04",
+      "id": 32
+    },
+    {
+      "Date": "2021-01-28",
+      "id": 33
+    },
+    {
+      "Date": "2021-01-21",
+      "id": 34
+    },
+    {
+      "Date": "2021-01-14",
+      "id": 35
+    },
+    {
+      "Date": "2021-01-07",
+      "id": 36
+    },
+    {
+      "Date": "2020-12-30",
+      "id": 37
+    },
+    {
+      "Date": "2020-12-22",
+      "id": 38
+    },
+    {
+      "Date": "2020-12-17",
+      "id": 39
+    },
+    {
+      "Date": "2020-12-10",
+      "id": 40
+    },
+    {
+      "Date": "2020-12-03",
+      "id": 41
+    },
+    {
+      "Date": "2020-11-26",
+      "id": 42
+    },
+    {
+      "Date": "2020-11-19",
+      "id": 43
+    },
+    {
+      "Date": "2020-11-12",
+      "id": 44
+    },
+    {
+      "Date": "2020-11-05",
+      "id": 45
+    },
+    {
+      "Date": "2020-10-29",
+      "id": 46
+    },
+    {
+      "Date": "2020-10-22",
+      "id": 47
+    },
+    {
+      "Date": "2020-10-15",
+      "id": 48
+    },
+    {
+      "Date": "2020-10-09",
+      "id": 49
+    },
+    {
+      "Date": "2020-10-01",
+      "id": 50
+    },
+    {
+      "Date": "2020-09-24",
+      "id": 51
+    },
+    {
+      "Date": "2020-09-18",
+      "id": 52
+    },
+    {
+      "Date": "2020-09-15",
+      "id": 53
+    },
+    {
+      "Date": "2020-09-11",
+      "id": 54
+    },
+    {
+      "Date": "2020-09-04",
+      "id": 55
+    }
+  ]
+}
