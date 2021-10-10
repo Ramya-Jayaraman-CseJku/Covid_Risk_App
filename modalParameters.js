@@ -43,14 +43,14 @@ export default function modelParamSelection({navigation}) {
   const [maskCateogoryPpl, setMaskCategoryPpl] = useState(0);
   const [maskEfficiencyI, setMaskEfficiencyI] = useState(0);
   const [maskEfficiencyN, setMaskEfficiencyN] = useState(0);
-  const [vaccination, setVaccination] = useState(0);
+  const [vaccination, setVaccination] = useState('None');
   const [ventilation, setVentilation] = useState(0);
   const [speechVolume, setSpeechVolume] = useState(0);
   const [speechDuration, setSpeechDuration] = useState(0);
-  const [ceilingHeight, setCeilingHeight] = useState(0);
-  const [roomSize, setRoomSize] = useState(0);
-  const [durationofStay, setDurationofStay] = useState(0);
-  const [noOfPeople, setNoOfPeople] = useState(0);
+  const [ceilingHeight, setCeilingHeight] = useState(2.2);
+  const [roomSize, setRoomSize] = useState(10);
+  const [durationofStay, setDurationofStay] = useState(1);
+  const [noOfPeople, setNoOfPeople] = useState(2);
   //set modal parameter values
   const selectedVentilation = value => setVentilation(value);
   const selectedSpeechVolume = value => setSpeechVolume(value);
@@ -192,8 +192,8 @@ export default function modelParamSelection({navigation}) {
         <Text style={styles.subheading}>Duration of Stay in hr</Text>
         <InputSpinner
           max={24}
-          min={0.5}
-          step={1}
+          min={1}
+          step={0.5}
           colorMax={'#f04048'}
           colorMin={'#55f440'}
           value={durationofStay}

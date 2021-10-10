@@ -29,7 +29,7 @@ export default function getWarningLevelDataAPI() {
     if (loading) {
       async function getDistrictNames() {
         await fetch(
-          `https://eb79-193-171-38-41.ngrok.io/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
+          `https://e4b1-140-78-175-220.ngrok.io/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
         )
           .then(response => response.json())
           .then(json => setDistrictName(json))

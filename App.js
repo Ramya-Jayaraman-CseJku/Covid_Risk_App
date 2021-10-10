@@ -1,9 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import dataOverview from './Screens/Screen1Overview';
 import getAllCharts from './charts';
 import getWarningLevelDataAPI from './getCoronaWarningLevel';

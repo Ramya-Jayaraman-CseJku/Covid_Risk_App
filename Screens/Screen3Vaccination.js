@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-//import DropDownPicker from 'react-native-dropdown-picker';
+
 import {
   ScrollView,
   FlatList,
@@ -24,60 +24,43 @@ import {
   VictoryAxis,
   createContainer,
 } from 'victory-native';
-import {Button, Header, Icon} from 'react-native-elements';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
-import {ChonseSelect} from 'react-native-chonse-select';
+
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import * as dropdownvales from '../dropDownValues.json';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 
 export default function getFullyVaccinatedCountAPI() {
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [countryWiseVaccCount, setcountryWiseVaccCount] = useState([]);
   const [selectedStateName, setSelectedStateName] = useState('Wien');
+  const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [query, setQuery] = useState('');
   const getSelectedState = district => {
     setSelectedStateName(district);
 
     setModalVisible(!modalVisible);
-    setLoading(true);
+    //setLoading(true);
   };
   const [state, setState] = useState({
     data: dropdownvales['States'],
   });
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedInterval, setSelectedInterval] = useState('Monthly');
-  const [selectedYear, setSelectedYear] = useState('2021');
-  const [year, setYear] = useState('2021');
-  const [interval, setInterval] = useState('Monthly');
+
+  const selectedYear = 2021;
+
   const showMenu = () => setVisible(true);
   const hideMenu = () => setVisible(false);
 
   const getSelectedInterval = Interval => {
     setSelectedInterval(Interval);
     hideMenu();
-    setLoading(true);
+    //setLoading(true);
   };
-  const [visibleYear, setVisibleYear] = useState(false);
+  const visibleYear = true;
 
-  const showMenuYear = () => setVisibleYear(true);
-  const hideMenuYear = () => setVisibleYear(false);
-  const getSelectedYear = year => {
-    setSelectedYear(year);
-    hideMenuYear();
-    setLoading(true);
-  };
   const ddvalues = dropdownvales['States'];
-  const [url, setUrl] = useState({
-    stateName: 'Wien',
-    year: 2021,
-    interval: 'Monthly',
-  });
+
   /* const encodedDistrict = encodeURIComponent(selectedStateName);
   const encodedYear = encodeURIComponent(year);
   const encodedInterval = encodeURIComponent(interval); */
@@ -92,34 +75,23 @@ export default function getFullyVaccinatedCountAPI() {
     setZoomDomain(domain);
   };
   useEffect(() => {
-    if (loading) {
-      async function getVaccinationData() {
-        await fetch(
-          `https://eb79-193-171-38-41.ngrok.io/api/Vaccination/?statename=${selectedStateName}&year=${selectedYear}&interval=${selectedInterval}`,
-        )
-          .then(response => response.json())
-          .then(json => setcountryWiseVaccCount(json.data))
-          .catch(error => console.error(error))
-          .finally(() => setLoading(false), []);
-      }
-
-      getVaccinationData();
+    // if (loading) {
+    async function getVaccinationData() {
+      await fetch(
+        `https://967b-193-171-38-41.ngrok.io/api/Vaccination/?statename=${selectedStateName}&year=${selectedYear}&interval=${selectedInterval}`,
+      )
+        .then(response => response.json())
+        .then(json => setcountryWiseVaccCount(json.data))
+        .catch(error => console.error(error))
+        .finally(() => setLoading(false), []);
     }
-  }, [loading]);
+
+    getVaccinationData();
+    // }
+  }, [selectedStateName, selectedInterval]);
 
   //const url1 = `https://ecfd241ea67c.ngrok.io/api/Vaccination/?statename=${url.stateName}&year=${url.year}&interval=${url.interval}`;
 
-  const updateUrl = () => {
-    if ((year != null) & (interval != null))
-      setUrl(url => {
-        return {
-          ...url,
-          stateName: selectedStateName,
-          year: year,
-          interval: interval,
-        };
-      });
-  };
   function searchData(text) {
     console.log(text);
     const newData = ddvalues.filter(item => {
@@ -242,31 +214,21 @@ export default function getFullyVaccinatedCountAPI() {
           </Menu>
           <Menu
             visible={visibleYear}
-            anchor={
-              <Text style={styles.textStyle} onPress={showMenuYear}>
-                {selectedYear}
-              </Text>
-            }
-            onRequestClose={hideMenuYear}>
-            <MenuItem onPress={() => getSelectedYear('2020')}>2020</MenuItem>
-            <MenuItem onPress={() => getSelectedYear('2021')}>2021</MenuItem>
-          </Menu>
+            anchor={<Text style={styles.textStyle}>2021</Text>}></Menu>
         </View>
 
         <VictoryChart
           theme={VictoryTheme.material}
           width={390}
           height={400}
-          domainPadding={{x: [10, 0]}}
+          domainPadding={{x: 50}}
           padding={{top: 60, left: 60, right: 30, bottom: 60}}
           containerComponent={
             <VictoryZoomVoronoiContainer
               zoomDimension="x"
               zoomDomain={zoomDomain}
               onZoomDomainChange={handleZoom}
-              labels={({datum}) =>
-                `vaccinated: ${datum.GemeldeteImpfungenLaender}`
-              }
+              labels={({datum}) => `vaccinated: ${datum.Vollimmunisierte}`}
               labelComponent={<VictoryTooltip />}
             />
           }>
@@ -315,15 +277,17 @@ export default function getFullyVaccinatedCountAPI() {
 
           <VictoryBar
             style={{data: {fill: 'purple'}}}
+            barWidth={10}
             data={countryWiseVaccCount}
             x={'Interval'}
-            y={'GemeldeteImpfungenLaender'}
+            y={'Vollimmunisierte'}
           />
         </VictoryChart>
         <VictoryChart
           width={380}
           height={160}
           scale={{x: 'linear'}}
+          domainPadding={{x: 50}}
           padding={{top: 30, left: 80, right: 30, bottom: 50}}
           containerComponent={
             <VictoryBrushContainer
@@ -359,7 +323,7 @@ export default function getFullyVaccinatedCountAPI() {
             style={{data: {fill: 'purple'}}}
             data={countryWiseVaccCount}
             x={'Interval'}
-            y={'GemeldeteImpfungenLaender'}
+            y={'Vollimmunisierte'}
             interpolation="catmullRom"
           />
         </VictoryChart>

@@ -40,7 +40,7 @@ export default function getReffectiveValue() {
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showLineChart, setShowLineChart] = useState(true);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [rEffAustria, setREffAustria] = useState([]);
 
   const [selectedYear, setSelectedYear] = useState('2021');
@@ -54,7 +54,7 @@ export default function getReffectiveValue() {
   const getSelectedInterval = Interval => {
     setSelectedInterval(Interval);
     hideMenu();
-    setLoading(true);
+    //  setLoading(true);
   };
   const [visibleYear, setVisibleYear] = useState(false);
 
@@ -63,7 +63,7 @@ export default function getReffectiveValue() {
   const getSelectedYear = year => {
     setSelectedYear(year);
     hideMenuYear();
-    setLoading(true);
+    // setLoading(true);
   };
   const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
   const [selectedDomain, setSelectedDomain] = useState();
@@ -81,30 +81,31 @@ export default function getReffectiveValue() {
     interval: 'Monthly',
   });
   useEffect(() => {
-    if (loading) {
-      async function getDistrictData() {
-        await fetch(
-          `https://eb79-193-171-38-41.ngrok.io/api/R_eff_Austria/?year=${selectedYear}&interval=${selectedInterval}`,
-        )
-          .then(response => response.json())
-          .then(json => setREffAustria(json.data))
-          .catch(error => console.error(error))
-          .finally(() => setLoading(false), []);
-      }
-
-      getDistrictData();
-      updateUrl();
+    //if (loading) {
+    async function getDistrictData() {
+      await fetch(
+        `https://967b-193-171-38-41.ngrok.io/api/R_eff_Austria/?year=${selectedYear}&interval=${selectedInterval}`,
+      )
+        .then(response => response.json())
+        .then(json => setREffAustria(json.data))
+        .catch(error => console.error(error))
+        .finally(() => setLoading(false), []);
     }
-  }, [loading]);
+
+    getDistrictData();
+    updateUrl();
+    //   }
+  }, [selectedYear, selectedInterval]);
   // const sampleurl = `https://ecfd241ea67c.ngrok.io/api/R_eff_Austria/?year=${url.year}&interval=${url.interval}`;
 
   function updateUrl() {
     if (selectedInterval == 'Yearly') {
       setShowLineChart(false);
+      //   setLoading(true);
     } else {
       setShowLineChart(true);
+      // setLoading(true);
     }
-    setLoading(true);
   }
 
   if (loading)
@@ -137,7 +138,7 @@ export default function getReffectiveValue() {
             <Menu
               visible={visible}
               anchor={
-                <Text style={styles.textStyle} onPress={showMenu}>
+                <Text style={styles.textStyle} onPress={() => showMenu}>
                   {selectedInterval}
                 </Text>
               }

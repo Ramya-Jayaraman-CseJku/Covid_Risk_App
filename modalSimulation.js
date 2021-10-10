@@ -1,21 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Button,
   ImageBackground,
+  Modal,
+  Pressable,
+  Image,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 import * as Animatable from 'react-native-animatable';
-
-//import for the collapsible/Expandable view
+import {Card} from 'react-native-elements';
 import Collapsible from 'react-native-collapsible';
 import BouncingBalls from 'react-native-bouncing-ball';
-
-//import for the Accordion view
-import Accordion from 'react-native-collapsible/Accordion';
 
 export default function Simulation({route}) {
   const {
@@ -35,33 +34,19 @@ export default function Simulation({route}) {
 
   const [selectedId, setSelectedId] = useState(null);
   const [activeSections, setActiveSections] = useState([]);
+  //modal
+  const [modalVisibleIP, setModalVisibleIP] = useState(false);
+  const [modalVisibleRP, setModalVisibleRP] = useState(false);
+  const [modalVisibleED, setModalVisibleED] = useState(false);
   // Collapsed condition for the single collapsible
   const [collapsed, setCollapsed] = useState(true);
   const [collapsedInfectedPerson, setCollapsedInfectedPerson] = useState(true);
   const [collapsedRoomProp, setCollapsedRoomProp] = useState(true);
   const [collapsedEventDetails, setCollapsedEventDetails] = useState(true);
-  const [showNoneVaccine, setShowNoneVaccine] = useState(false);
+  const [showNoneVaccine, setShowNoneVaccine] = useState(true);
   const [showIndiviVaccine, setShowIndiviVaccine] = useState(false);
   const [showEveryoneVaccine, setShowEveryoneVaccine] = useState(false);
   const [showPeopleCount, setShowPeopleCount] = useState(false);
-
-  const Item = ({item, onPress, backgroundColor, textColor}) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-      <Text style={(styles.title, textColor)}>{item.title}</Text>
-    </TouchableOpacity>
-  );
-  const renderItem = ({item}) => {
-    const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
-    const color = item.id === selectedId ? 'white' : 'black';
-    return (
-      <Item
-        item={item}
-        onPress={() => setValuesByEvent(item.id)}
-        backgroundColor={{backgroundColor}}
-        textColor={{color}}
-      />
-    );
-  };
 
   //constant values
   const Depositionprobability = 0.5;
@@ -93,66 +78,71 @@ export default function Simulation({route}) {
   let exponent = Dosisinfepisodehrs;
   let number = 0.9978;
   let ri = Math.pow(number, exponent);
-
   let r = Math.pow(number, Depisoden);
 
-  //function riskInfection(vaccine, Rpercentage) {
-  function riskInfection(Rpercentage) {
-    /* if (Rpercentage > 50) {
-      setShowPeopleCount(!showPeopleCount);
-    } */
-    if (vaccine == 'None') {
-      setShowNoneVaccine(!showNoneVaccine);
-    } else if (vaccine == 'Individual') {
+  function RiskInfection() {
+    /*if (vaccine == 'None') {
+     setShowNoneVaccine(!showNoneVaccine);
+    }else if (vaccine == 'Individual') {
       setShowIndiviVaccine(!showIndiviVaccine);
     } else if (vaccine == 'Everyone') {
       setShowEveryoneVaccine(!showEveryoneVaccine);
-    }
-  }
-  //riskInfection();
-  const Ripercentage = (1 - ri) * 100;
+    } */
+    return (
+      <View>
+        <Card containerStyle={styles.cardContainer}>
+          {showNoneVaccine ? (
+            <View>
+              <Text style={styles.RiskInfText}>
+                Ri- individual infection risk if one person is infectious{' '}
+                <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)}%</Text>
+              </Text>
 
+              <Text style={styles.RiskInfText}>
+                R- probability that at least one susceptible person gets
+                infected{' '}
+                <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
+              </Text>
+            </View>
+          ) : null}
+          {showIndiviVaccine ? (
+            <View>
+              <Text style={styles.RiskInfText}>
+                Ri- individual infection risk if one person is infectious
+              </Text>
+              <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)} %</Text>
+
+              <Text style={styles.RiskInfText}>
+                R- probability that at least one susceptible person gets
+                infected
+              </Text>
+              <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
+            </View>
+          ) : null}
+          {showEveryoneVaccine ? (
+            <View>
+              <Text style={styles.RiskInfText}>
+                Ri- individual infection risk if one person is infectious
+              </Text>
+              <Text style={styles.RiskInf}>
+                {parseInt(Ripercentage.toFixed(1))} %
+              </Text>
+
+              <Text style={styles.RiskInfText}>
+                R- probability that at least one susceptible person gets
+                infected
+              </Text>
+              <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
+            </View>
+          ) : null}
+        </Card>
+      </View>
+    );
+  }
+  const Ripercentage = (1 - ri) * 100;
   const Rpercentage = (1 - r) * 100;
   const virus = parseInt(Rpercentage.toFixed(0));
-  const CONTENT = [
-    {
-      title: 'Characteristics of infected person',
-      content:
-        'Speech volume - ' +
-        {speechVolume} +
-        'Mask efficiency of infected person - ' +
-        {maskEfficiencyInfected} +
-        'Speech Duration - ' +
-        {speechDuration} +
-        'Respiratory volume - 10',
-    },
-    {
-      title: 'Room properties',
-      content:
-        ' Ventilation - ' +
-        {ventilation} +
-        'Room size - ' +
-        {roomSize} +
-        'Ceiling Height - ' +
-        {ceilingHeight},
-    },
-    {
-      title: 'Event details',
-      content:
-        'Duration of stay' +
-        {durationOfStay} +
-        'Mask efficiency of normal person' +
-        {maskEfficiencyNormal} +
-        'Number of people' +
-        {noOfPeople},
-    },
-  ];
-  const SELECTORS = [
-    {title: 'Characteristics of infected person', value: 0},
-    {title: 'Room properties', value: 1},
-    {title: 'Event details', value: 2},
-    {title: 'Reset all'},
-  ];
+
   const toggleParams = () => {
     //Toggling the state of single Collapsible
     setCollapsed(!collapsed);
@@ -169,229 +159,234 @@ export default function Simulation({route}) {
     //Toggling the state of single Collapsible
     setCollapsedEventDetails(!collapsedEventDetails);
   };
-  const setSections = sections => {
-    //setting up a active section state
-    setActiveSections(sections.includes(undefined) ? [] : sections);
-  };
-  const renderHeader = (section, _, isActive) => {
-    //Accordion Header view
-    return (
-      <Animatable.View
-        duration={400}
-        style={[styles.header, isActive ? styles.active : styles.inactive]}
-        transition="backgroundColor">
-        <Text style={styles.headerText}>{section.title}</Text>
-      </Animatable.View>
-    );
-  };
-
-  const renderContent = (section, _, isActive) => {
-    //Accordion Content view
-    return (
-      <Animatable.View
-        duration={400}
-        style={[styles.content, isActive ? styles.active : styles.inactive]}
-        transition="backgroundColor">
-        <Animatable.Text
-          animation={isActive ? 'bounceIn' : undefined}
-          style={{textAlign: 'center'}}>
-          {section.content}
-        </Animatable.Text>
-      </Animatable.View>
-    );
-  };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={toggleParams}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Modal properties</Text>
-        </View>
-      </TouchableOpacity>
-      <Collapsible align="center" collapsed={collapsed}>
-        <TouchableOpacity onPress={toggleExpandedInfectedPerson}>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <TouchableOpacity onPress={toggleParams}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>
+            <Text style={styles.headerText}>Modal properties</Text>
+          </View>
+        </TouchableOpacity>
+        <Collapsible align="center" collapsed={collapsed}>
+          <View style={{flexDirection: 'row'}}>
+            <View>
+              <TouchableOpacity onPress={() => setModalVisibleIP(true)}>
+                <View style={styles.modalProps}>
+                  <Text style={styles.headerText}>Infected person</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity onPress={() => setModalVisibleRP(true)}>
+                <View style={styles.modalProps}>
+                  <Text style={styles.headerText}>Room properties</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity onPress={() => setModalVisibleED(true)}>
+                <View style={styles.modalProps}>
+                  <Text style={styles.headerText}>Event details</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisibleIP}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setModalVisibleIP(!modalVisibleIP);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  <View style={styles.content}>
+                    <View style={styles.cardImgContainer}>
+                      <Image
+                        source={require('./images/sick-boy-covid-infected.png')}
+                        style={styles.imgDimensions}
+                      />
+                    </View>
+
+                    <Text style={styles.modalPropertiesHeading}>
+                      Characteristics of infected person
+                    </Text>
+                    <Text style={styles.modalProperties}>
+                      Speech volume - {speechVolume}
+                      {'\n'}
+                      Mask efficiency - {maskEfficiencyInfected}
+                      {'\n'}
+                      Speech Duration - {speechDuration} {'\n'}
+                      Respiratory volume - 10
+                    </Text>
+                  </View>
+                </Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisibleIP(!modalVisibleIP)}>
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisibleRP}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setModalVisibleRP(!modalVisibleRP);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  <View style={styles.content}>
+                    <View style={styles.cardImgContainer}>
+                      <Image
+                        source={require('./images/door.png')}
+                        style={styles.imgDimensions}
+                      />
+                    </View>
+
+                    <Text style={styles.modalPropertiesHeading}>
+                      Room properties
+                    </Text>
+                    <Text style={styles.modalProperties}>
+                      Ventilation - {ventilation}
+                      {'\n'}
+                      Room size - {roomSize}
+                      {'\n'}
+                      Ceiling Height - {ceilingHeight}
+                    </Text>
+                  </View>
+                </Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisibleRP(!modalVisibleRP)}>
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisibleED}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setModalVisibleED(!modalVisibleED);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  <View style={styles.content}>
+                    <View style={styles.cardImgContainer}>
+                      <Image
+                        source={require('./images/peopleingroup.png')}
+                        style={styles.imgDimensions}
+                      />
+                    </View>
+
+                    <Text style={styles.modalPropertiesHeading}>
+                      Event details
+                    </Text>
+
+                    <Text style={styles.modalProperties}>
+                      Duration of stay - {durationOfStay}
+                      {'\n'}
+                      Mask efficiency of normal person - {maskEfficiencyNormal}
+                      {'\n'}
+                      Number of people - {noOfPeople}
+                    </Text>
+                  </View>
+                </Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisibleED(!modalVisibleED)}>
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </Collapsible>
+        {/*  <Collapsible collapsed={collapsedInfectedPerson} align="center">
+          <View style={styles.content}>
+            <Text style={styles.modalPropertiesHeading}>
               Characteristics of infected person
             </Text>
+            <Text style={styles.modalProperties}>
+              Speech volume - {speechVolume}
+              {'\n'}
+              Mask efficiency - {maskEfficiencyInfected}
+              {'\n'}
+              Speech Duration - {speechDuration} {'\n'}
+              Respiratory volume - 10
+            </Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggleExpandedRoomProp}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Room properties</Text>
+        </Collapsible>
+        <Collapsible collapsed={collapsedRoomProp} align="center">
+          <View style={styles.content}>
+            <Text style={styles.modalPropertiesHeading}>Room properties</Text>
+            <Text style={styles.modalProperties}>
+              Ventilation - {ventilation}
+              {'\n'}
+              Room size - {roomSize}
+              {'\n'}
+              Ceiling Height - {ceilingHeight}
+            </Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggleExpandedEventDetails}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Event details</Text>
-            {/*Heading of Single Collapsible*/}
-          </View>
-        </TouchableOpacity>
-      </Collapsible>
-      <Collapsible collapsed={collapsedInfectedPerson} align="center">
-        <View style={styles.content}>
-          <Text style={styles.modalPropertiesHeading}>
-            Characteristics of infected person
-          </Text>
-          <Text style={styles.modalProperties}>
-            Speech volume - {speechVolume}
-            {'\n'}
-            Mask efficiency - {maskEfficiencyInfected}
-            {'\n'}
-            Speech Duration - {speechDuration} {'\n'}
-            Respiratory volume - 10
-          </Text>
-        </View>
-      </Collapsible>
-      <Collapsible collapsed={collapsedRoomProp} align="center">
-        <View style={styles.content}>
-          <Text style={styles.modalPropertiesHeading}>Room properties</Text>
-          <Text style={styles.modalProperties}>
-            Ventilation - {ventilation}
-            {'\n'}
-            Room size - {roomSize}
-            {'\n'}
-            Ceiling Height - {ceilingHeight}
-          </Text>
-        </View>
-      </Collapsible>
-      <Collapsible collapsed={collapsedEventDetails} align="center">
-        <View style={styles.content}>
-          <Text style={styles.modalPropertiesHeading}>Event details</Text>
+        </Collapsible>
+        <Collapsible collapsed={collapsedEventDetails} align="center">
+          <View style={styles.content}>
+            <Text style={styles.modalPropertiesHeading}>Event details</Text>
 
-          <Text style={styles.modalProperties}>
-            Duration of stay - {durationOfStay}
-            {'\n'}
-            Mask efficiency of normal person - {maskEfficiencyNormal}
-            {'\n'}
-            Number of people - {noOfPeople}
-          </Text>
-        </View>
-      </Collapsible>
-      <View style={styles.buttonStyle}>
-        <Button
-          title="Risk Infection"
-          color="#2C76F0"
-          onPress={() => {
-            riskInfection();
-            // riskInfection(vaccine, Rpercentage);
-          }}
-        />
+            <Text style={styles.modalProperties}>
+              Duration of stay - {durationOfStay}
+              {'\n'}
+              Mask efficiency of normal person - {maskEfficiencyNormal}
+              {'\n'}
+              Number of people - {noOfPeople}
+            </Text>
+          </View>
+        </Collapsible> */}
+        {/* <View style={styles.buttonStyle}>
+          <Button
+            title="Risk Infection"
+            color="#2C76F0"
+            onPress={() => {
+              riskInfection();
+              // riskInfection(vaccine, Rpercentage);
+            }}
+          />
+        </View> */}
+
+        {RiskInfection()}
+
+        <ImageBackground style={styles.simulationContainer}>
+          <BouncingBalls
+            amount={virus}
+            animationDuration={5000}
+            minSpeed={30}
+            maxSpeed={40}
+            minSize={5}
+            maxSize={5}
+            imageBall={require('./images/corona_virus.png')}
+          />
+          <BouncingBalls
+            amount={noofpplinsimulation}
+            animationDuration={5000}
+            minSpeed={30}
+            maxSpeed={40}
+            minSize={20}
+            maxSize={20}
+            imageBall={require('./images/man.png')}
+          />
+        </ImageBackground>
       </View>
-
-      {/*  <Accordion
-        activeSections={activeSections}
-        //for any default active section
-     
-    
-      {/*  <Text>Event type {selectedeventType}</Text>
-      <Text>Masks worn by {maskForCategory} people</Text>
-      <Text>{vaccine}</Text>
-      <Text>none{showNoneVaccine}</Text>
-      <Text>indivi{showIndiviVaccine}</Text>
-      <Text>everyone{showEveryoneVaccine}</Text> */}
-
-      {showNoneVaccine ? (
-        <View>
-          <Text style={styles.RiskInfText}>
-            Ri- individual infection risk if one person is infectious
-          </Text>
-          <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)}%</Text>
-
-          <Text style={styles.RiskInfText}>
-            R- probability that at least one susceptible person gets infected
-          </Text>
-          <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
-        </View>
-      ) : null}
-      {showIndiviVaccine ? (
-        <View>
-          <Text style={styles.RiskInfText}>
-            Ri- individual infection risk if one person is infectious
-          </Text>
-          <Text style={styles.RiskInf}>
-            {' '}
-            lesser than {Ripercentage.toFixed(1)} %
-          </Text>
-
-          <Text style={styles.RiskInfText}>
-            R- probability that at least one susceptible person gets infected
-          </Text>
-          <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
-        </View>
-      ) : null}
-      {showEveryoneVaccine ? (
-        <View>
-          <Text style={styles.RiskInfText}>
-            Ri- individual infection risk if one person is infectious
-          </Text>
-          <Text style={styles.RiskInf}>
-            {' '}
-            lesser than {Ripercentage.toFixed(1)} %
-          </Text>
-
-          <Text style={styles.RiskInfText}>
-            R- probability that at least one susceptible person gets infected
-          </Text>
-          <Text style={styles.RiskInf}>
-            lesser than {Rpercentage.toFixed(1)} %
-          </Text>
-        </View>
-      ) : null}
-      {/*  {showPeopleCount ? (
-        <View>
-          <Text style={styles.RiskInfText}>
-            Number of people in room should be less than
-          </Text>
-          <Text style={styles.RiskInf}> {noOfPeople}</Text>
-        </View>
-      ) : null} */}
-      {/*  <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        extraData={selectedId}
-      />
-      <Text>{ventilationandviruslftimeaerosol}</Text>
-      <Text>
-        Ri(%) individual infection risk if one person is infectious
-        {Ripercentage}%
-      </Text>
-      <Text></Text>
-      <Text>
-        R(%) probability that at least one susceptible person gets infected
-        {Rpercentage} %
-      </Text> */}
-      <ImageBackground style={styles.container}>
-        <BouncingBalls
-          amount={virus}
-          animationDuration={10000}
-          minSpeed={30}
-          maxSpeed={50}
-          minSize={5}
-          maxSize={5}
-          imageBall={require('./images/corona_virus.png')}
-        />
-        <BouncingBalls
-          amount={noofpplinsimulation}
-          animationDuration={10000}
-          minSpeed={10}
-          maxSpeed={30}
-          minSize={20}
-          maxSize={20}
-          imageBall={require('./images/man.png')}
-        />
-        {/*  <BouncingBalls
-          amount={50}
-          animationDuration={100000}
-          minSpeed={10}
-          maxSpeed={30}
-          minSize={20}
-          maxSize={20}
-          imageBall={require('./images/woman1.png')}
-        /> */}
-      </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
@@ -399,6 +394,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffff',
     paddingTop: 10,
+  },
+  cardContainer: {
+    borderRadius: 10,
+    width: 375,
+    marginLeft: 5,
+  },
+  simulationContainer: {
+    backgroundColor: '#ffff',
+    flex: 1,
+  },
+  imgDimensions: {
+    width: 50,
+    height: 50,
   },
   item: {
     padding: 10,
@@ -414,15 +422,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   RiskInfText: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
-    paddingLeft: 10,
+    padding: 2,
   },
   RiskInf: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
     color: 'blue',
-    paddingLeft: 10,
   },
 
   title: {
@@ -434,20 +441,33 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#dbdbdb',
     padding: 10,
+    marginLeft: 5,
+    //width: 380,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#ffff',
-    borderRadius: 25,
+    borderRadius: 20,
+  },
+  cardImgContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalProps: {
+    padding: 10,
+    marginLeft: 5,
+    paddingLeft: 5,
   },
   headerText: {
     textAlign: 'center',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: 'bold',
     color: '#000000',
   },
   content: {
-    backgroundColor: '#ffff',
-    borderColor: 'black',
-    borderWidth: 1,
+    //backgroundColor: '#ffff',
+    // borderColor: 'black',
+    //borderWidth: 1,
     borderRadius: 25,
     marginTop: 5,
 
@@ -499,5 +519,47 @@ const styles = StyleSheet.create({
   multipleToggle__title: {
     fontSize: 16,
     marginRight: 8,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  modalView: {
+    margin: 40,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    marginTop: 20,
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });

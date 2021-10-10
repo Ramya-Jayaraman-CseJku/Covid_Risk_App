@@ -3055,6 +3055,13 @@
   "resolved" "https://registry.npmjs.org/delaunator/-/delaunator-4.0.1.tgz"
   "version" "4.0.1"
 
+"delaunay-find@0.0.3":
+  "integrity" "sha512-Ex8DtJudrPsB0IhmJxFjHqzZnzbCOoFgw8kTGAnTlc6uU/v25nd7o2HeWhyZSaPhholsfL33PmLSEdaBi0qfug=="
+  "resolved" "https://registry.npmjs.org/delaunay-find/-/delaunay-find-0.0.3.tgz"
+  "version" "0.0.3"
+  dependencies:
+    "delaunator" "^4.0.0"
+
 "delaunay-find@0.0.5":
   "integrity" "sha512-7yAJ/wmKWj3SgqjtkGqT/RCwI0HWAo5YnHMoF5nYXD8cdci+YSo23iPmgrZUNOpDxRWN91PqxUvMMr2lKpjr+w=="
   "resolved" "https://registry.npmjs.org/delaunay-find/-/delaunay-find-0.0.5.tgz"
@@ -8842,10 +8849,10 @@
     "lodash" "^4.17.5"
     "react-fast-compare" "^2.0.0"
 
-"victory-core@^33.0.0":
-  "integrity" "sha512-PhFl8hi+osOEh2XCGLTUcFO3jXt/8uLoaWiuCoYlsC4zxeLY2j/mgIw4lz4VmCDZ9kW4oOErBUoeLL41YBQnGQ=="
-  "resolved" "https://registry.npmjs.org/victory-core/-/victory-core-33.1.7.tgz"
-  "version" "33.1.7"
+"victory-core@^32.3.7":
+  "integrity" "sha512-7D23WVSPGXIlndCCPyikmYm+aRHz6FKXGCCPd9vrbc83Dp1JMv9XvqWq8c650ALl396dgIp4VN+onhNFwtO6uQ=="
+  "resolved" "https://registry.npmjs.org/victory-core/-/victory-core-32.3.7.tgz"
+  "version" "32.3.7"
   dependencies:
     "d3-ease" "^1.0.0"
     "d3-interpolate" "^1.1.1"
@@ -8856,7 +8863,7 @@
     "prop-types" "^15.5.8"
     "react-fast-compare" "^2.0.0"
 
-"victory-core@^33.1.7":
+"victory-core@^33.0.0", "victory-core@^33.1.7":
   "integrity" "sha512-PhFl8hi+osOEh2XCGLTUcFO3jXt/8uLoaWiuCoYlsC4zxeLY2j/mgIw4lz4VmCDZ9kW4oOErBUoeLL41YBQnGQ=="
   "resolved" "https://registry.npmjs.org/victory-core/-/victory-core-33.1.7.tgz"
   "version" "33.1.7"
@@ -9021,6 +9028,15 @@
     "react-fast-compare" "^2.0.0"
     "victory-core" "^33.1.7"
 
+"victory-tooltip@^32.3.7":
+  "integrity" "sha512-j0J2oC3bdhkFekRtL4APgbjh5Rcyrc/kUShkz1SGPo8ePC16z+y+duxKnCsMWEUP3ygdbM4lo+EMoc6mNTtQKw=="
+  "resolved" "https://registry.npmjs.org/victory-tooltip/-/victory-tooltip-32.3.7.tgz"
+  "version" "32.3.7"
+  dependencies:
+    "lodash" "^4.17.15"
+    "prop-types" "^15.5.8"
+    "victory-core" "^32.3.7"
+
 "victory-tooltip@^33.0.0", "victory-tooltip@^33.1.7":
   "integrity" "sha512-M3N/3sx5xwtAQJjTFNQw8KlRBHQOOgSxjk1WyBbLv4zls/zu2reF0czbiFxKsgkVuf+yoxp76quHUId0hS58pg=="
   "resolved" "https://registry.npmjs.org/victory-tooltip/-/victory-tooltip-33.1.7.tgz"
@@ -9030,7 +9046,29 @@
     "prop-types" "^15.5.8"
     "victory-core" "^33.1.7"
 
-"victory-voronoi-container@^33.0.0", "victory-voronoi-container@^33.1.7":
+"victory-voronoi-container@^32.3.7":
+  "integrity" "sha512-6ql/aCknKyGWN6d8Ed5TZawglo/kmGxHYzu16VyFXz86yai5q3uwLyf6juGAWtkiijG1Wg44BupUwsl3hXJqFw=="
+  "resolved" "https://registry.npmjs.org/victory-voronoi-container/-/victory-voronoi-container-32.3.7.tgz"
+  "version" "32.3.7"
+  dependencies:
+    "delaunay-find" "0.0.3"
+    "lodash" "^4.17.15"
+    "prop-types" "^15.5.8"
+    "victory-core" "^32.3.7"
+    "victory-tooltip" "^32.3.7"
+
+"victory-voronoi-container@^33.0.0":
+  "integrity" "sha512-rGV9U/jbVWRlU1E7OxYp/ywDjrLX9F9JeXd94rajzS3kJoNFZv6huGgMZN+48ErvMK5WK9kRxFOz8a7dHZ8Tug=="
+  "resolved" "https://registry.npmjs.org/victory-voronoi-container/-/victory-voronoi-container-33.1.7.tgz"
+  "version" "33.1.7"
+  dependencies:
+    "delaunay-find" "0.0.5"
+    "lodash" "^4.17.15"
+    "prop-types" "^15.5.8"
+    "victory-core" "^33.1.7"
+    "victory-tooltip" "^33.1.7"
+
+"victory-voronoi-container@^33.1.7":
   "integrity" "sha512-rGV9U/jbVWRlU1E7OxYp/ywDjrLX9F9JeXd94rajzS3kJoNFZv6huGgMZN+48ErvMK5WK9kRxFOz8a7dHZ8Tug=="
   "resolved" "https://registry.npmjs.org/victory-voronoi-container/-/victory-voronoi-container-33.1.7.tgz"
   "version" "33.1.7"
