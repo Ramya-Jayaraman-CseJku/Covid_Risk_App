@@ -17,7 +17,9 @@ const dataOverview = () => {
     'https://www.data.gv.at/katalog/dataset/52abfc2b-031c-4875-b838-653abbfccf4e';
   const vaccination =
     'https://www.data.gv.at/katalog/dataset/7effe370-ce79-4286-b299-c5d851f546ff';
-  const REffective = 'https://sites.google.com/view/corona-at/startseite';
+  const REffective =
+    'https://www.ages.at/wissen-aktuell/publikationen/epidemiologische-parameter-des-covid19-ausbruchs-oesterreich-20202021/';
+
   const modalCalculation = 'https://www.mpic.de/4747361/risk-calculator';
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +27,7 @@ const dataOverview = () => {
         <Header
           backgroundColor="#005fff"
           centerComponent={{
-            text: 'Feature Overview',
+            text: 'App Overview',
             style: {color: '#fff', fontSize: 18, fontWeight: 'bold'},
             color: '#fff',
 
@@ -38,33 +40,41 @@ const dataOverview = () => {
           <TouchableOpacity onPress={() => Linking.openURL(positiveCases)}>
             <Card containerStyle={styles.cardStyle}>
               <Card.Title style={styles.cardTitle}>Positive Cases</Card.Title>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Granularity:</Text> City-Wise
               </Text>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
                 Daily
               </Text>
-              <Text style={styles.subHeading}>Availability:</Text>
-              <Text>Lagging By Two Days</Text>
-              <Text style={styles.subHeading}>Graph Interval:</Text>
-              <Text> Week-Month-Year</Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Availability:</Text>
+                Lagging By Two Days
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Graph Interval:</Text>
+                Week-Month-Year
+              </Text>
             </Card>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Linking.openURL(warnLevel)}>
             <Card containerStyle={styles.cardStyle}>
               <Card.Title style={styles.cardTitle}> Warning Level </Card.Title>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Granularity:</Text> City-Wise
               </Text>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
                 Weekly
               </Text>
-              <Text style={styles.subHeading}>Availability:</Text>
-              <Text>For Specific Date</Text>
-              <Text style={styles.subHeading}>Map Interval:</Text>
-              <Text>Specific Date</Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Availability:</Text>
+                For Specific Date
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Map Interval:</Text>
+                Specific Date
+              </Text>
             </Card>
           </TouchableOpacity>
         </View>
@@ -73,33 +83,41 @@ const dataOverview = () => {
           <TouchableOpacity onPress={() => Linking.openURL(vaccination)}>
             <Card containerStyle={styles.cardStyle}>
               <Card.Title style={styles.cardTitle}>Vaccination </Card.Title>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Granularity:</Text> State-Wise
               </Text>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
                 Daily
               </Text>
-              <Text style={styles.subHeading}>Availability:</Text>
-              <Text>Lagging By Two Days</Text>
-              <Text style={styles.subHeading}>Graph Interval: </Text>
-              <Text>Week-Month-Year</Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Availability:</Text>
+                Lagging By Two Days
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Graph Interval: </Text>
+                Week-Month-Year
+              </Text>
             </Card>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Linking.openURL(REffective)}>
             <Card containerStyle={styles.cardStyle}>
               <Card.Title style={styles.cardTitle}>REffective</Card.Title>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Granularity:</Text> Country
               </Text>
-              <Text>
+              <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
                 Daily
               </Text>
-              <Text style={styles.subHeading}>Availability:</Text>
-              <Text>Lagging By One Week</Text>
-              <Text style={styles.subHeading}>Graph Interval: </Text>
-              <Text>Week-Month-Year</Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Availability:</Text>
+                Lagging By One Week
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Graph Interval: </Text>
+                Week-Month-Year
+              </Text>
             </Card>
           </TouchableOpacity>
         </View>
@@ -112,15 +130,15 @@ const dataOverview = () => {
 
               <View>
                 <Text style={styles.subHeading}>Room:</Text>
-                <Text>Size ,Ventilation and Ceiling Height</Text>
+                <Text style={styles.textStyle}>Size ,Ventilation and Ceiling Height</Text>
                 <Text style={styles.subHeading}>People: </Text>
-                <Text>People Count, Speech Volume and Duration</Text>
+                <Text style={styles.textStyle}>People Count, Speech Volume and Duration</Text>
                 <Text style={styles.subHeading}>Duration:</Text>
-                <Text>Stay Duration in Room</Text>
+                <Text style={styles.textStyle}>Stay Duration in Room</Text>
                 <Text style={styles.subHeading}>Own Behavior:</Text>
-                <Text>Masks and Vaccination</Text>
+                <Text style={styles.textStyle}>Masks and Vaccination</Text>
                 <Text style={styles.subHeading}>COVID-19 Info:</Text>
-                <Text>Positive Cases and Vaccination Count</Text>
+                <Text style={styles.textStyle}>Positive Cases and Vaccination Count</Text>
               </View>
             </Card>
           </TouchableOpacity>
@@ -134,9 +152,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#ffffff',
   },
-
+  textStyle: {
+    color: 'black',
+  },
   Heading: {
     fontWeight: 'bold',
     color: '#0087ff',
@@ -164,5 +184,6 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     fontWeight: 'bold',
+    color: 'black',
   },
 });

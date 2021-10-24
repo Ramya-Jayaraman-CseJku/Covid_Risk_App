@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,9 +10,10 @@ import {
   Modal,
   Pressable,
   Image,
+  ScrollView,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import {Card} from 'react-native-elements';
+
+import {Icon, Card} from 'react-native-elements';
 import Collapsible from 'react-native-collapsible';
 import BouncingBalls from 'react-native-bouncing-ball';
 
@@ -40,6 +41,7 @@ export default function Simulation({route}) {
   const [modalVisibleED, setModalVisibleED] = useState(false);
   // Collapsed condition for the single collapsible
   const [collapsed, setCollapsed] = useState(true);
+  const [showRiskInfo, setShowRiskInfo] = useState(true);
   const [collapsedInfectedPerson, setCollapsedInfectedPerson] = useState(true);
   const [collapsedRoomProp, setCollapsedRoomProp] = useState(true);
   const [collapsedEventDetails, setCollapsedEventDetails] = useState(true);
@@ -91,50 +93,44 @@ export default function Simulation({route}) {
     return (
       <View>
         <Card containerStyle={styles.cardContainer}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.RiskInfText}>Risk Infection </Text>
+            <TouchableOpacity onPress={toggleRiskInfo}>
+              <Icon
+                name="information"
+                type="material-community"
+                color="#ED471C"
+              />
+            </TouchableOpacity>
+          </View>
           {showNoneVaccine ? (
-            <View>
+            <View style={{flexDirection: 'row'}}>
               <Text style={styles.RiskInfText}>
-                Ri- individual infection risk if one person is infectious{' '}
-                <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)}%</Text>
-              </Text>
-
-              <Text style={styles.RiskInfText}>
-                R- probability that at least one susceptible person gets
-                infected{' '}
-                <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
+                Ri -{' '}
+                <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)}%</Text> R
+                - <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>{' '}
               </Text>
             </View>
           ) : null}
           {showIndiviVaccine ? (
-            <View>
+            <View style={{flexDirection: 'row'}}>
               <Text style={styles.RiskInfText}>
-                Ri- individual infection risk if one person is infectious
+                Ri -{' '}
+                <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)}%</Text> R
+                - <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>{' '}
               </Text>
-              <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)} %</Text>
-
-              <Text style={styles.RiskInfText}>
-                R- probability that at least one susceptible person gets
-                infected
-              </Text>
-              <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
             </View>
           ) : null}
           {showEveryoneVaccine ? (
-            <View>
+            <View style={{flexDirection: 'row'}}>
               <Text style={styles.RiskInfText}>
-                Ri- individual infection risk if one person is infectious
+                Ri -{' '}
+                <Text style={styles.RiskInf}>{Ripercentage.toFixed(1)}%</Text> R
+                - <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>{' '}
               </Text>
-              <Text style={styles.RiskInf}>
-                {parseInt(Ripercentage.toFixed(1))} %
-              </Text>
-
-              <Text style={styles.RiskInfText}>
-                R- probability that at least one susceptible person gets
-                infected
-              </Text>
-              <Text style={styles.RiskInf}>{Rpercentage.toFixed(1)} %</Text>
             </View>
           ) : null}
+          {riskInfo()}
         </Card>
       </View>
     );
@@ -146,6 +142,10 @@ export default function Simulation({route}) {
   const toggleParams = () => {
     //Toggling the state of single Collapsible
     setCollapsed(!collapsed);
+  };
+  const toggleRiskInfo = () => {
+    //Toggling the state of single Collapsible
+    setShowRiskInfo(!showRiskInfo);
   };
   const toggleExpandedInfectedPerson = () => {
     //Toggling the state of single Collapsible
@@ -159,233 +159,198 @@ export default function Simulation({route}) {
     //Toggling the state of single Collapsible
     setCollapsedEventDetails(!collapsedEventDetails);
   };
-
+  function riskInfo() {
+    return (
+      <View>
+        <Collapsible collapsed={showRiskInfo}>
+          <Text style={styles.RiskInfText}>
+            Ri-
+            <Text style={{color: 'black'}}>
+              individual infection risk if one person is infectious {'\n'}
+            </Text>
+            R-
+            <Text style={{color: 'black'}}>
+              probability that at least one susceptible person gets infected
+            </Text>{' '}
+          </Text>
+        </Collapsible>
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <TouchableOpacity onPress={toggleParams}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Modal properties</Text>
-          </View>
-        </TouchableOpacity>
-        <Collapsible align="center" collapsed={collapsed}>
-          <View style={{flexDirection: 'row'}}>
-            <View>
-              <TouchableOpacity onPress={() => setModalVisibleIP(true)}>
-                <View style={styles.modalProps}>
-                  <Text style={styles.headerText}>Infected person</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity onPress={() => setModalVisibleRP(true)}>
-                <View style={styles.modalProps}>
-                  <Text style={styles.headerText}>Room properties</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity onPress={() => setModalVisibleED(true)}>
-                <View style={styles.modalProps}>
-                  <Text style={styles.headerText}>Event details</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisibleIP}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisibleIP(!modalVisibleIP);
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  <View style={styles.content}>
-                    <View style={styles.cardImgContainer}>
-                      <Image
-                        source={require('./images/sick-boy-covid-infected.png')}
-                        style={styles.imgDimensions}
-                      />
-                    </View>
-
-                    <Text style={styles.modalPropertiesHeading}>
-                      Characteristics of infected person
-                    </Text>
-                    <Text style={styles.modalProperties}>
-                      Speech volume - {speechVolume}
-                      {'\n'}
-                      Mask efficiency - {maskEfficiencyInfected}
-                      {'\n'}
-                      Speech Duration - {speechDuration} {'\n'}
-                      Respiratory volume - 10
-                    </Text>
-                  </View>
-                </Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisibleIP(!modalVisibleIP)}>
-                  <Text style={styles.textStyle}>Hide Modal</Text>
-                </Pressable>
+      <TouchableOpacity onPress={toggleParams}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Modal properties</Text>
+        </View>
+      </TouchableOpacity>
+      <Collapsible align="center" collapsed={collapsed}>
+        <View style={{flexDirection: 'row'}}>
+          <View>
+            <TouchableOpacity onPress={() => setModalVisibleIP(true)}>
+              <View style={styles.modalProps}>
+                <Text style={styles.headerText}>Infected person</Text>
               </View>
-            </View>
-          </Modal>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisibleRP}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisibleRP(!modalVisibleRP);
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  <View style={styles.content}>
-                    <View style={styles.cardImgContainer}>
-                      <Image
-                        source={require('./images/door.png')}
-                        style={styles.imgDimensions}
-                      />
-                    </View>
-
-                    <Text style={styles.modalPropertiesHeading}>
-                      Room properties
-                    </Text>
-                    <Text style={styles.modalProperties}>
-                      Ventilation - {ventilation}
-                      {'\n'}
-                      Room size - {roomSize}
-                      {'\n'}
-                      Ceiling Height - {ceilingHeight}
-                    </Text>
-                  </View>
-                </Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisibleRP(!modalVisibleRP)}>
-                  <Text style={styles.textStyle}>Hide Modal</Text>
-                </Pressable>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => setModalVisibleRP(true)}>
+              <View style={styles.modalProps}>
+                <Text style={styles.headerText}>Room properties</Text>
               </View>
-            </View>
-          </Modal>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisibleED}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisibleED(!modalVisibleED);
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  <View style={styles.content}>
-                    <View style={styles.cardImgContainer}>
-                      <Image
-                        source={require('./images/peopleingroup.png')}
-                        style={styles.imgDimensions}
-                      />
-                    </View>
-
-                    <Text style={styles.modalPropertiesHeading}>
-                      Event details
-                    </Text>
-
-                    <Text style={styles.modalProperties}>
-                      Duration of stay - {durationOfStay}
-                      {'\n'}
-                      Mask efficiency of normal person - {maskEfficiencyNormal}
-                      {'\n'}
-                      Number of people - {noOfPeople}
-                    </Text>
-                  </View>
-                </Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisibleED(!modalVisibleED)}>
-                  <Text style={styles.textStyle}>Hide Modal</Text>
-                </Pressable>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => setModalVisibleED(true)}>
+              <View style={styles.modalProps}>
+                <Text style={styles.headerText}>Event details</Text>
               </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleIP}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisibleIP(!modalVisibleIP);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                <View style={styles.content}>
+                  <View style={styles.cardImgContainer}>
+                    <Image
+                      source={require('./images/sick-boy-covid-infected.png')}
+                      style={styles.imgDimensions}
+                    />
+                  </View>
+
+                  <Text style={styles.modalPropertiesHeading}>
+                    Characteristics of infected person
+                  </Text>
+                  <Text style={styles.modalProperties}>
+                    Speech volume - {speechVolume}
+                    {'\n'}
+                    Mask efficiency - {maskEfficiencyInfected}
+                    {'\n'}
+                    Speech Duration - {speechDuration} {'\n'}
+                    Respiratory volume - 10
+                  </Text>
+                </View>
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisibleIP(!modalVisibleIP)}>
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
             </View>
-          </Modal>
-        </Collapsible>
-        {/*  <Collapsible collapsed={collapsedInfectedPerson} align="center">
-          <View style={styles.content}>
-            <Text style={styles.modalPropertiesHeading}>
-              Characteristics of infected person
-            </Text>
-            <Text style={styles.modalProperties}>
-              Speech volume - {speechVolume}
-              {'\n'}
-              Mask efficiency - {maskEfficiencyInfected}
-              {'\n'}
-              Speech Duration - {speechDuration} {'\n'}
-              Respiratory volume - 10
-            </Text>
           </View>
-        </Collapsible>
-        <Collapsible collapsed={collapsedRoomProp} align="center">
-          <View style={styles.content}>
-            <Text style={styles.modalPropertiesHeading}>Room properties</Text>
-            <Text style={styles.modalProperties}>
-              Ventilation - {ventilation}
-              {'\n'}
-              Room size - {roomSize}
-              {'\n'}
-              Ceiling Height - {ceilingHeight}
-            </Text>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleRP}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisibleRP(!modalVisibleRP);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                <View style={styles.content}>
+                  <View style={styles.cardImgContainer}>
+                    <Image
+                      source={require('./images/door.png')}
+                      style={styles.imgDimensions}
+                    />
+                  </View>
+
+                  <Text style={styles.modalPropertiesHeading}>
+                    Room properties
+                  </Text>
+                  <Text style={styles.modalProperties}>
+                    Ventilation - {ventilation}
+                    {'\n'}
+                    Room size - {roomSize}
+                    {'\n'}
+                    Ceiling Height - {ceilingHeight}
+                  </Text>
+                </View>
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisibleRP(!modalVisibleRP)}>
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+            </View>
           </View>
-        </Collapsible>
-        <Collapsible collapsed={collapsedEventDetails} align="center">
-          <View style={styles.content}>
-            <Text style={styles.modalPropertiesHeading}>Event details</Text>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleED}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisibleED(!modalVisibleED);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                <View style={styles.content}>
+                  <View style={styles.cardImgContainer}>
+                    <Image
+                      source={require('./images/peopleingroup.png')}
+                      style={styles.imgDimensions}
+                    />
+                  </View>
 
-            <Text style={styles.modalProperties}>
-              Duration of stay - {durationOfStay}
-              {'\n'}
-              Mask efficiency of normal person - {maskEfficiencyNormal}
-              {'\n'}
-              Number of people - {noOfPeople}
-            </Text>
+                  <Text style={styles.modalPropertiesHeading}>
+                    Event details
+                  </Text>
+
+                  <Text style={styles.modalProperties}>
+                    Duration of stay - {durationOfStay}
+                    {'\n'}
+                    Mask efficiency of normal person - {maskEfficiencyNormal}
+                    {'\n'}
+                    Number of people - {noOfPeople}
+                  </Text>
+                </View>
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisibleED(!modalVisibleED)}>
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+            </View>
           </View>
-        </Collapsible> */}
-        {/* <View style={styles.buttonStyle}>
-          <Button
-            title="Risk Infection"
-            color="#2C76F0"
-            onPress={() => {
-              riskInfection();
-              // riskInfection(vaccine, Rpercentage);
-            }}
-          />
-        </View> */}
+        </Modal>
+      </Collapsible>
 
-        {RiskInfection()}
+      {RiskInfection()}
 
-        <ImageBackground style={styles.simulationContainer}>
-          <BouncingBalls
-            amount={virus}
-            animationDuration={5000}
-            minSpeed={30}
-            maxSpeed={40}
-            minSize={5}
-            maxSize={5}
-            imageBall={require('./images/corona_virus.png')}
-          />
-          <BouncingBalls
-            amount={noofpplinsimulation}
-            animationDuration={5000}
-            minSpeed={30}
-            maxSpeed={40}
-            minSize={20}
-            maxSize={20}
-            imageBall={require('./images/man.png')}
-          />
-        </ImageBackground>
-      </View>
+      <ImageBackground style={styles.simulationContainer}>
+        <BouncingBalls
+          amount={virus}
+          animationDuration={5000}
+          minSpeed={30}
+          maxSpeed={40}
+          minSize={5}
+          maxSize={5}
+          imageBall={require('./images/corona_virus.png')}
+        />
+        <BouncingBalls
+          amount={noofpplinsimulation}
+          animationDuration={5000}
+          minSpeed={30}
+          maxSpeed={40}
+          minSize={20}
+          maxSize={20}
+          imageBall={require('./images/man.png')}
+        />
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -398,7 +363,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     borderRadius: 10,
     width: 375,
-    marginLeft: 5,
   },
   simulationContainer: {
     backgroundColor: '#ffff',
@@ -425,11 +389,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     padding: 2,
+    textAlign: 'left',
+    color: '#1C6BED',
   },
   RiskInf: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: 'blue',
+    color: '#ED471C',
   },
 
   title: {
@@ -481,10 +447,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     fontWeight: 'bold',
+    color: 'black',
   },
   modalProperties: {
     fontSize: 16,
     textAlign: 'center',
+    color: 'black',
   },
   active: {
     backgroundColor: 'rgba(255,255,255,1)',
@@ -510,16 +478,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'center',
   },
-  multipleToggle: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 30,
-    alignItems: 'center',
-  },
-  multipleToggle__title: {
-    fontSize: 16,
-    marginRight: 8,
-  },
+
   centeredView: {
     flex: 1,
     justifyContent: 'center',

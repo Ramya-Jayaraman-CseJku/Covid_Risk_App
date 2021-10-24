@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {SearchBar, Card, Header} from 'react-native-elements';
 import MapView, {
@@ -14,7 +15,8 @@ import MapView, {
   Circle,
   Polyline,
 } from 'react-native-maps';
-import {ClusterMap} from 'react-native-cluster-map';
+
+import {VictoryLegend} from 'victory-native';
 import * as warnlevelDates from './dropDownValues.json';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
@@ -22,24 +24,22 @@ export default function getWarningLevelDataAPI() {
   const [districtName, setDistrictName] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date('2021-09-09'));
-  /* const [selectedWarnLevelDate, setSelectedWarnLevelDate] =
-    useState('2021-09-09'); */
+  
   const [selectedWarnLevelDate, setSelectedWarnLevelDate] = useState('');
   useEffect(() => {
-    if (loading) {
-      async function getDistrictNames() {
-        await fetch(
-          `https://e4b1-140-78-175-220.ngrok.io/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
-        )
-          .then(response => response.json())
-          .then(json => setDistrictName(json))
-          .catch(error => console.error(error))
-          .finally(() => setLoading(false));
-      }
-
-      getDistrictNames();
+    async function getDistrictNames() {
+      await fetch(
+        `https://covidinfoapi.appspot.com/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
+      )
+        .then(response => response.json())
+        .then(json => setDistrictName(json))
+        .catch(error => console.error(error))
+        .finally(() => setLoading(false));
     }
-  }, [loading]);
+
+    getDistrictNames();
+  }, [selectedWarnLevelDate]);
+  console.log(selectedWarnLevelDate);
   let wld = warnlevelDates['WarnLevelDates'];
   let wldates = wld.map(d => d.Date);
   const sdates = wldates;
@@ -75,7 +75,7 @@ export default function getWarningLevelDataAPI() {
       </Text>
     </TouchableOpacity>
   );
-  //functions to parse day,month and year from date
+ 
   function dateSubtractDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() - days);
@@ -90,8 +90,7 @@ export default function getWarningLevelDataAPI() {
     return date.toString().split(' ')[1];
   }
   function isSameDay(date1, date2) {
-    //console.log(date1);
-    // console.log(date2);
+   
     if (
       date1.getDate() == date2.getDate() &&
       date1.getMonth() == date2.getMonth()
@@ -169,7 +168,7 @@ export default function getWarningLevelDataAPI() {
   if (loading)
     return (
       <View>
-        <Text>Loading...</Text>
+        <ActivityIndicator />
       </View>
     );
 
@@ -187,41 +186,59 @@ export default function getWarningLevelDataAPI() {
             fontWeight: 'bold',
           }}
         />
-        <View style={styles.map}>
-          {loading ? (
-            <View>
-              <Text>Loading...</Text>
-            </View>
-          ) : (
-            <MapView
-              provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              region={{
-                latitude: 47.82326,
-                longitude: 13.84644,
-                latitudeDelta: 6.5,
-                longitudeDelta: 1.5,
-              }}>
-              {districtName.map((report, i) => (
-                <Circle
-                  key={i}
-                  center={{
-                    latitude: report.Latitude,
-                    longitude: report.Longitude,
-                  }}
-                  radius={8000}
-                  strokeWidth={1}
-                  strokeColor={report.MarkerColor}
-                  fillColor={report.MarkerColor}
-                  zIndex={1}
-                  lineCap={'square'}
-                />
-              ))}
-            </MapView>
-          )}
+        <View>
+          <Card containerStyle={styles.cardStyle1}>
+            <Card.Title style={styles.cardTitle}>
+              Risk Level Indicators
+            </Card.Title>
+            <VictoryLegend
+              x={1}
+              y={1}
+            
+              orientation="horizontal"
+              gutter={30}
+             
+              data={[
+                {name: 'High', symbol: {fill: 'red', type: 'circle'}},
+                {name: 'Medium', symbol: {fill: 'orange', type: 'circle'}},
+                {name: 'Low', symbol: {fill: 'gold', type: 'circle'}},
+                {name: 'Very Low', symbol: {fill: 'green', type: 'circle'}},
+              ]}
+            />
+          </Card>
         </View>
 
-        <View style={{paddingTop: 472}}>
+        <View style={styles.map}>
+        
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            region={{
+              latitude: 47.333333,
+              longitude: 13.333333,
+              latitudeDelta: 6.5,
+              longitudeDelta: 1.5,
+            }}>
+            {districtName.map((report, i) => (
+              <Circle
+                key={i}
+                center={{
+                  latitude: report.Latitude,
+                  longitude: report.Longitude,
+                }}
+                radius={8000}
+                strokeWidth={1}
+                strokeColor={report.MarkerColor}
+                fillColor={report.MarkerColor}
+                zIndex={1}
+                lineCap={'square'}
+              />
+            ))}
+          </MapView>
+        
+        </View>
+
+        <View style={{paddingTop: 391}}>
           <Card containerStyle={styles.cardStyle}>
             <Card.Title style={styles.cardTitle}>
               Corona Warning Level on - {selectedWarnLevelDate}
@@ -239,7 +256,7 @@ export default function getWarningLevelDataAPI() {
               initialScrollIndex={result.length - 8}
               contentContainerStyle={[{paddingLeft: 4, paddingRight: 4}]}
             />
-            {/*  <Text>{selectedWarnLevelDate}</Text> */}
+          
           </Card>
         </View>
       </View>
@@ -248,14 +265,14 @@ export default function getWarningLevelDataAPI() {
 }
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: 5,
     height: '100%',
+    flex: 1,
+    paddingTop: 0,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    top: 45,
+    top: 60,
     height: 500,
-    flex: 1,
   },
   itemStyle: {
     paddingLeft: 50,
@@ -279,6 +296,16 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     borderColor: 'lightgrey',
     marginBottom: 5,
+  },
+  cardStyle1: {
+    marginTop: 3,
+    paddingTop: 5,
+    borderRadius: 20,
+    height: 90,
+    width: 382,
+    marginRight: 0,
+    marginLeft: 5,
+    borderColor: 'lightgrey',
   },
   cardTitle: {
     color: '#0087ff',

@@ -1,15 +1,12 @@
-import 'react-native-gesture-handler';
-import React from 'react';
-
+import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import modelParamSelection from './modalParameters';
 import Simulation from './modalSimulation';
 
 const Stack = createStackNavigator();
-
-export const MainStackNavigator = () => {
-  return (
-    <Stack.Navigator
+function MyStack(){
+    return(
+<Stack.Navigator
       initialRouteName="Modal Parameters"
       screenOptions={{
         headerMode: 'screen',
@@ -37,5 +34,10 @@ export const MainStackNavigator = () => {
         }}
       />
     </Stack.Navigator>
+    );
+}
+export const MainStackNavigator = () => {
+  return (
+    <MyStack/>
   );
 };

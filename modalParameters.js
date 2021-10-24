@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {
-  FlatList,
   StyleSheet,
   Text,
   View,
-  Dimensions,
   Image,
   TouchableOpacity,
   Button,
+  ScrollView,
 } from 'react-native';
 import {Card, SearchBar, Icon, Avatar} from 'react-native-elements';
 
@@ -23,13 +22,51 @@ export default function modelParamSelection({navigation}) {
   const [showSpeechTime, setShowSpeechTime] = useState(false);
   const [showSpeechVolume, setShowSpeechVolume] = useState(false);
 
-  const onPressVaccine = () => setShowVaccine(!showVaccine);
-  const onPressMask = () => setShowMasks(!showMasks);
-  const onPressWindow = () => setShowWindow(!showWindow);
-  const onPressCeiingHeight = () => setShowCeilingHeight(!showCeilingHeight);
-  const onPressSpeechTime = () => setShowSpeechTime(!showSpeechTime);
-  const onPressSpeechVolume = () => setShowSpeechVolume(!showSpeechVolume);
-
+  const showHideParameters = selectedValue => {
+    if (selectedValue == 'vaccine') {
+      setShowVaccine(!showVaccine);
+      setShowMasks(false);
+      setShowWindow(false);
+      setShowCeilingHeight(false);
+      setShowSpeechTime(false);
+      setShowSpeechVolume(false);
+    } else if (selectedValue == 'mask') {
+      setShowMasks(!showMasks);
+      setShowVaccine(false);
+      setShowWindow(false);
+      setShowCeilingHeight(false);
+      setShowSpeechTime(false);
+      setShowSpeechVolume(false);
+    } else if (selectedValue == 'window') {
+      setShowWindow(!showWindow);
+      setShowMasks(false);
+      setShowVaccine(false);
+      setShowCeilingHeight(false);
+      setShowSpeechTime(false);
+      setShowSpeechVolume(false);
+    } else if (selectedValue == 'ceilingHeight') {
+      setShowCeilingHeight(!showCeilingHeight);
+      setShowWindow(false);
+      setShowMasks(false);
+      setShowVaccine(false);
+      setShowSpeechTime(false);
+      setShowSpeechVolume(false);
+    } else if (selectedValue == 'speechTime') {
+      setShowSpeechTime(!showSpeechTime);
+      setShowCeilingHeight(false);
+      setShowWindow(false);
+      setShowMasks(false);
+      setShowVaccine(false);
+      setShowSpeechVolume(false);
+    } else {
+      setShowSpeechVolume(!showSpeechVolume);
+      setShowSpeechTime(false);
+      setShowCeilingHeight(false);
+      setShowWindow(false);
+      setShowMasks(false);
+      setShowVaccine(false);
+    }
+  };
   const eventType = [
     'Classroom',
     'Office',
@@ -51,6 +88,7 @@ export default function modelParamSelection({navigation}) {
   const [roomSize, setRoomSize] = useState(10);
   const [durationofStay, setDurationofStay] = useState(1);
   const [noOfPeople, setNoOfPeople] = useState(2);
+
   //set modal parameter values
   const selectedVentilation = value => setVentilation(value);
   const selectedSpeechVolume = value => setSpeechVolume(value);
@@ -128,567 +166,525 @@ export default function modelParamSelection({navigation}) {
 
   return (
     <View styles={styles.container}>
-      <View style={styles.cardrow}>
-        <SelectDropdown
-          data={eventType}
-          onSelect={(selectedItem, index) => {
-            setValuesByEvent(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-          buttonStyle={styles.dropdownButton}
-          buttonTextStyle={styles.dropdownButtonText}
-          dropdownStyle={styles.dropdown}
-          rowStyle={styles.dropdownRow}
-          rowTextStyle={styles.dropdownRowText}
-          defaultButtonText={'Choose an Event'}
-        />
-        <SelectDropdown
-          data={MaskEfficiencyPeople}
-          onSelect={(selectedItem, index) => {
-            setMaskCategoryPpl(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-          buttonStyle={styles.dropdownButton}
-          buttonTextStyle={styles.dropdownButtonText}
-          dropdownStyle={styles.dropdown}
-          rowStyle={styles.dropdownRow}
-          rowTextStyle={styles.dropdownRowText}
-          defaultButtonText={'Choose Mask For'}
-        />
-      </View>
-
-      <Text style={styles.heading}>Room Properties</Text>
-      <View style={styles.row}>
-        <Text style={styles.subheading}>Size in sq.m</Text>
-        <InputSpinner
-          max={2400}
-          min={10}
-          step={1}
-          colorMax={'#f04048'}
-          colorMin={'#66ed69'}
-          value={roomSize}
-          onChange={num => setRoomSize(Math.round(num))}
-          background={'#dedcdc'}
-          showBorder={true}
-          rounded={false}
-          width={180}
-          height={35}
-          colorPress={'#48b9db'}
-          colorLeft={'#367fd9'}
-          colorRight={'#367fd9'}
-        />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.subheading}>Duration of Stay in hr</Text>
-        <InputSpinner
-          max={24}
-          min={1}
-          step={0.5}
-          colorMax={'#f04048'}
-          colorMin={'#55f440'}
-          value={durationofStay}
-          onChange={num => setDurationofStay(Math.round(num))}
-          background={'#dedcdc'}
-          showBorder={true}
-          rounded={false}
-          width={180}
-          height={35}
-          colorPress={'#48b9db'}
-          colorLeft={'#367fd9'}
-          colorRight={'#367fd9'}
-        />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.subheading}>Number of people</Text>
-        <InputSpinner
-          max={36}
-          min={2}
-          step={1}
-          colorMax={'#f04048'}
-          colorMin={'#55f440'}
-          value={noOfPeople}
-          onChange={num => setNoOfPeople(Math.round(num))}
-          background={'#dedcdc'}
-          showBorder={true}
-          rounded={false}
-          width={180}
-          height={35}
-          colorPress={'#48b9db'}
-          colorLeft={'#367fd9'}
-          colorRight={'#367fd9'}
-        />
-      </View>
-
-      <Text style={styles.heading}>Model Parameters</Text>
-
-      <View style={styles.cardrow}>
-        <View style={styles.spaceImagesthree}>
-          <TouchableOpacity
-            onPress={onPressVaccine}
-            style={styles.imageBground}>
-            <Image
-              source={require('./images/injection.png')}
-              style={styles.imgDimensions}
-            />
-            <Text>{'\n'}Vaccine</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.spaceImages}>
-          <TouchableOpacity onPress={onPressMask} style={styles.imageBground}>
-            <Image
-              source={require('./images/ffp2.png')}
-              style={styles.imgDimensions}
-            />
-
-            <Text>{'\n'}Mask</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.cardrow}>
-        <View style={styles.spaceImagesthree}>
-          <TouchableOpacity onPress={onPressWindow} style={styles.imageBground}>
-            <Image
-              source={require('./images/windowicon.png')}
-              style={styles.imgDimensions}
-            />
-            <Text>{'\n'}window</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.spaceImages}>
-          <TouchableOpacity
-            onPress={onPressCeiingHeight}
-            style={styles.imageBground}>
-            <Image
-              source={require('./images/ceiling_height_icon.png')}
-              style={styles.imgDimensions}
-            />
-            <Text>
-              {'\n'}Ceiling{'\n'}Height
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.spaceImages}>
-          <TouchableOpacity
-            onPress={onPressSpeechTime}
-            style={styles.imageBground}>
-            <Image
-              source={require('./images/speech-bubble.png')}
-              style={styles.imgDimensions}
-            />
-            <Text>
-              {'\n'}Speech{'\n'}Time
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.spaceImages}>
-          <TouchableOpacity
-            onPress={onPressSpeechVolume}
-            style={styles.imageBground}>
-            <Image
-              source={require('./images/speech.png')}
-              style={styles.imgDimensions}
-            />
-            <Text>
-              {'\n'}Speech{'\n'}Volume
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {showVaccine ? (
+      <ScrollView>
         <View style={styles.cardrow}>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedVaccinatin('None')}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/woman.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-            </TouchableOpacity>
-            <Text>None</Text>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedVaccinatin('Everyone')}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/crowd.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-            </TouchableOpacity>
-            <Text>Everyone</Text>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedVaccinatin('Individual')}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/peoplevaccinated.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-            </TouchableOpacity>
-            <Text>Individual</Text>
-          </View>
+          <SelectDropdown
+            data={eventType}
+            onSelect={(selectedItem, index) => {
+              setValuesByEvent(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText={'Choose an Event'}
+          />
+          <SelectDropdown
+            data={MaskEfficiencyPeople}
+            onSelect={(selectedItem, index) => {
+              setMaskCategoryPpl(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText={'Choose Mask For'}
+          />
         </View>
-      ) : null}
-      {showMasks ? (
+
+        <Text style={styles.heading}>Room Properties</Text>
+        <View style={styles.row}>
+          <Text style={styles.subheading}>Size in sq.m</Text>
+          <InputSpinner
+            max={2400}
+            min={10}
+            step={1}
+            colorMax={'#f04048'}
+            colorMin={'#66ed69'}
+            value={roomSize}
+            onChange={num => setRoomSize(Math.round(num))}
+            background={'#dedcdc'}
+            showBorder
+            rounded={false}
+            width={180}
+            height={35}
+            colorPress={'#48b9db'}
+            colorLeft={'#367fd9'}
+            colorRight={'#367fd9'}
+            selectTextOnFocus={true}
+            editable
+            onMax={() => {
+              alert('Maximum value is reached!');
+            }}
+            onMin={() => {
+              alert('Minimum value is  reached!');
+            }}
+          />
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.subheading}>Duration of Stay in hr</Text>
+          <InputSpinner
+            max={24}
+            min={1}
+            step={0.5}
+            colorMax={'#f04048'}
+            colorMin={'#55f440'}
+            value={durationofStay}
+            onChange={num => setDurationofStay(Math.round(num))}
+            background={'#dedcdc'}
+            showBorder
+            rounded={false}
+            width={180}
+            height={35}
+            colorPress={'#48b9db'}
+            colorLeft={'#367fd9'}
+            colorRight={'#367fd9'}
+            editable
+            onMax={() => {
+              alert('Maximum value is reached!');
+            }}
+            onMin={() => {
+              alert('Minimum value is  reached!');
+            }}
+          />
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.subheading}>Number of people</Text>
+          <InputSpinner
+            max={60}
+            min={2}
+            step={1}
+            colorMax={'#f04048'}
+            colorMin={'#55f440'}
+            value={noOfPeople}
+            onChange={num => setNoOfPeople(Math.round(num))}
+            background={'#dedcdc'}
+            showBorder={true}
+            rounded={false}
+            width={180}
+            height={35}
+            colorPress={'#48b9db'}
+            colorLeft={'#367fd9'}
+            colorRight={'#367fd9'}
+            editable
+            onMax={() => {
+              alert('Maximum value is reached!');
+            }}
+            onMin={() => {
+              alert('Minimum value is  reached!');
+            }}
+          />
+        </View>
+
+        <Text style={styles.heading}>Model Parameters</Text>
+
         <View style={styles.cardrow}>
-          <View style={styles.spaceImagesinSubset}>
-            <Avatar
-              size={58}
-              rounded
-              activeOpacity={0.3}
-              source={require('./images/ffp2.png')}
-              overlayContainerStyle={{backgroundColor: '#72bcd4'}}
-              onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0.7)}
-              resizeMode={'contain'}
-            />
-            <Text>0.7</Text>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <Avatar
-              size={58}
-              rounded
-              activeOpacity={0.3}
-              source={require('./images/mask_normal.png')}
-              overlayContainerStyle={{backgroundColor: '#72bcd4'}}
-              onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0.5)}
-              resizeMode={'contain'}
-            />
-            <Text>0.5</Text>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <Avatar
-              size={58}
-              rounded
-              activeOpacity={0.3}
-              source={require('./images/cloth-mask.png')}
-              overlayContainerStyle={{backgroundColor: '#72bcd4'}}
-              onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0.2)}
-              resizeMode={'contain'}
-            />
-            <Text>0.2</Text>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <Avatar
-              size={58}
-              rounded
-              activeOpacity={0.3}
-              source={require('./images/no-mask.png')}
-              overlayContainerStyle={{backgroundColor: '#72bcd4'}}
-              onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0)}
-              resizeMode={'contain'}
-            />
-            <Text>0</Text>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity onPress={onPressMask} style={styles.imageBground}>
-              <Image
-                source={require('./images/mask_human.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity onPress={onPressMask} style={styles.imageBground}>
-              <Image
-                source={require('./images/crowdmask.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
+          <View style={styles.spaceImagesthree}>
             <TouchableOpacity
-              onPress={() => selectedMaskEfficiency(0.7)}
+              onPress={() => showHideParameters('vaccine')}
+              style={[styles.imageBground]}>
+              <Image
+                source={require('./images/injection.png')}
+                style={styles.imgDimensions}
+              />
+              <Text style={styles.textStyle}>{'\n'}Vaccine</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.spaceImagesthree}>
+            <TouchableOpacity
+              onPress={() => showHideParameters('mask')}
               style={styles.imageBground}>
               <Image
                 source={require('./images/ffp2.png')}
-                style={styles.imgDimensionsinSubset}
+                style={styles.imgDimensions}
               />
+
+              <Text style={styles.textStyle}>{'\n'}Mask</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.spaceImagesinSubset}>
+          <View style={styles.spaceImagesthree}>
             <TouchableOpacity
-              onPress={() => selectedMaskEfficiency(0.5)}
+              onPress={() => showHideParameters('window')}
               style={styles.imageBground}>
               <Image
-                source={require('./images/mask_normal.png')}
-                style={styles.imgDimensionsinSubset}
+                source={require('./images/windowicon.png')}
+                style={styles.imgDimensions}
               />
+              <Text style={styles.textStyle}>{'\n'}window</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.spaceImagesinSubset}>
+        </View>
+
+        <View style={styles.cardrow}>
+          <View style={styles.spaceImagesthree}>
             <TouchableOpacity
-              onPress={() => selectedMaskEfficiency(0.2)}
+              onPress={() => showHideParameters('ceilingHeight')}
               style={styles.imageBground}>
               <Image
-                source={require('./images/cloth-mask.png')}
-                style={styles.imgDimensionsinSubset}
+                source={require('./images/ceiling_height_icon.png')}
+                style={styles.imgDimensions}
               />
+              <Text style={styles.textStyle}>
+                {'\n'}Ceiling{'\n'}Height
+              </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.spaceImagesinSubset}>
+
+          <View style={styles.spaceImagesthree}>
             <TouchableOpacity
-              onPress={() => selectedMaskEfficiency(0)}
+              onPress={() => showHideParameters('speechTime')}
               style={styles.imageBground}>
               <Image
-                source={require('./images/no-mask.png')}
-                style={styles.imgDimensionsinSubset}
+                source={require('./images/speech-bubble.png')}
+                style={styles.imgDimensions}
               />
+              <Text style={styles.textStyle}>
+                {'\n'}Speech{'\n'}Time
+              </Text>
             </TouchableOpacity>
           </View>
-          <Avatar
-            size={58}
-            rounded
-            activeOpacity={0.3}
-            source={require('./images/ffp2.png')}
-            imageProps={styles.imgDimensions}
-            overlayContainerStyle={{backgroundColor: '#72bcd4'}}
-            onPress={onPressMask}
-            resizeMode={'contain'}
+
+          <View style={styles.spaceImagesthree}>
+            <TouchableOpacity
+              onPress={() => showHideParameters('speechVolume')}
+              style={styles.imageBground}>
+              <Image
+                source={require('./images/speech.png')}
+                style={styles.imgDimensions}
+              />
+              <Text style={styles.textStyle}>
+                {'\n'}Speech{'\n'}Volume
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {showVaccine ? (
+          <View style={styles.cardrow}>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedVaccinatin('None')}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/woman.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>None</Text>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedVaccinatin('Everyone')}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/crowd.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>Everyone</Text>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedVaccinatin('Individual')}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/peoplevaccinated.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>Individual</Text>
+            </View>
+          </View>
+        ) : null}
+        {showMasks ? (
+          <View style={styles.cardrow}>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0.7)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/ffp2.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>FFP2 Mask</Text>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0.5)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/mask_normal.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>Surgical Mask</Text>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0.2)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/cloth-mask.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>Cloth Mask</Text>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => setMaskEfficiencyPeople(maskCateogoryPpl, 0)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/no-mask.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>No Mask</Text>
+            </View>
+          </View>
+        ) : null}
+        {showWindow ? (
+          <View style={styles.cardrow}>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedVentilation(0.35)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/window_closed.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>No{'\n'}Ventilation</Text>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity style={styles.imageBground}>
+                <Image
+                  source={require('./images/window_crackedopen.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>Cracked{'\n'}Open</Text>
+            </View>
+
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedVentilation(2.0)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/window_fullopen.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}> Burst{'\n'}Ventilation</Text>
+            </View>
+
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedVentilation(6.0)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/ventilation.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+              </TouchableOpacity>
+              <Text style={styles.textStyle}>Ventilation{'\n'}System</Text>
+            </View>
+          </View>
+        ) : null}
+        {showCeilingHeight ? (
+          <View style={styles.cardrow}>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedCeilingHeight(2.2)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/height.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}2.2 m</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedCeilingHeight(2.4)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/height.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}2.4 m</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedCeilingHeight(3.3)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/height.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}3.3 m</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedCeilingHeight(5)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/height.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}5 m</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : null}
+        {showSpeechTime ? (
+          <View style={styles.cardrow}>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechDuration(0)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/00Time.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+                <Text style={styles.textStyle}>{'\n'}None</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechDuration(25)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/15mintime.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+                <Text style={styles.textStyle}>{'\n'}25 %</Text>
+                <Text style={styles.textStyle}>1:15 hr</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechDuration(50)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/30mintime.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+                <Text style={styles.textStyle}>{'\n'}50 %</Text>
+                <Text style={styles.textStyle}>2:30 hr</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechDuration(90)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/00Time.png')}
+                  style={styles.imgDimensionsinSubset}
+                />
+                <Text style={styles.textStyle}>{'\n'}90 %</Text>
+                <Text style={styles.textStyle}>4:30 hr</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : null}
+        {showSpeechVolume ? (
+          <View style={styles.cardrow}>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechVolume(1)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/volume-quiet.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}Quiet</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechVolume(2)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/volume-low.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}Normal</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechVolume(3)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/volume-medium.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}Loud</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.spaceImagesinSubset}>
+              <TouchableOpacity
+                onPress={() => selectedSpeechVolume(4)}
+                style={styles.imageBground}>
+                <Image
+                  source={require('./images/volume-high.png')}
+                  style={styles.imgDimensions}
+                />
+                <Text style={styles.textStyle}>{'\n'}Yelling</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : null}
+
+        <View style={styles.buttonStyle}>
+          <Button
+            title="Start Simulation"
+            color="#2C76F0"
+            onPress={() => {
+              navigation.navigate('Simulation', {
+                selectedeventType: selectedEventType,
+                maskForCategory: maskCateogoryPpl,
+
+                roomSize: roomSize,
+
+                durationOfStay: durationofStay,
+
+                noOfPeople: noOfPeople,
+
+                maskEfficiencyInfected: maskEfficiencyI,
+
+                maskEfficiencyNormal: maskEfficiencyN,
+                vaccine: vaccination,
+
+                ventilation: ventilation,
+
+                ceilingHeight: ceilingHeight,
+
+                speechDuration: speechDuration,
+
+                speechVolume: speechVolume,
+              });
+            }}
           />
         </View>
-      ) : null}
-      {showWindow ? (
-        <View style={styles.cardrow}>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedVentilation(0.35)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/window_closed.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}0.35</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity style={styles.imageBground}>
-              <Image
-                source={require('./images/window_crackedopen.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}0</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedVentilation(2.0)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/window_fullopen.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}2</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedVentilation(6.0)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/ventilation.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}6</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : null}
-      {showCeilingHeight ? (
-        <View style={styles.cardrow}>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedCeilingHeight(2.2)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/height.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}2.2 m</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedCeilingHeight(2.4)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/height.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}2.4 m</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedCeilingHeight(3.3)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/height.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}3.3 m</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedCeilingHeight(5)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/height.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}5 m</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : null}
-      {showSpeechTime ? (
-        <View style={styles.cardrow}>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechDuration(0)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/00Time.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}None</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechDuration(25)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/15mintime.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}25 %</Text>
-              <Text>{'\n'}1:15 hr</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechDuration(50)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/30mintime.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}50 %</Text>
-              <Text>{'\n'}2:30 hr</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechDuration(90)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/00Time.png')}
-                style={styles.imgDimensionsinSubset}
-              />
-              <Text>{'\n'}90 %</Text>
-              <Text>{'\n'}4:30 hr</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : null}
-      {showSpeechVolume ? (
-        <View style={styles.cardrow}>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechVolume(1)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/volume-quiet.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}1</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechVolume(2)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/volume-low.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}2</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechVolume(3)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/volume-medium.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}3</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.spaceImagesinSubset}>
-            <TouchableOpacity
-              onPress={() => selectedSpeechVolume(4)}
-              style={styles.imageBground}>
-              <Image
-                source={require('./images/volume-high.png')}
-                style={styles.imgDimensions}
-              />
-              <Text>{'\n'}4</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : null}
-
-      <View style={styles.buttonStyle}>
-        <Button
-          title="Start Simulation"
-          color="#2C76F0"
-          onPress={() => {
-            navigation.navigate('Simulation', {
-              selectedeventType: selectedEventType,
-              maskForCategory: maskCateogoryPpl,
-
-              roomSize: roomSize,
-
-              durationOfStay: durationofStay,
-
-              noOfPeople: noOfPeople,
-
-              maskEfficiencyInfected: maskEfficiencyI,
-
-              maskEfficiencyNormal: maskEfficiencyN,
-              vaccine: vaccination,
-
-              ventilation: ventilation,
-
-              ceilingHeight: ceilingHeight,
-
-              speechDuration: speechDuration,
-
-              speechVolume: speechVolume,
-            });
-          }}
-        />
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -727,7 +723,6 @@ const styles = StyleSheet.create({
   },
 
   heading: {
-    //paddingTop: 5,
     fontSize: 18,
     fontWeight: 'bold',
     color: 'darkblue',
@@ -736,200 +731,59 @@ const styles = StyleSheet.create({
   subheading: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'black',
   },
-  cardStyle: {
-    marginTop: 20,
-
-    paddingTop: 20,
-    height: 450,
-    width: 350,
-  },
+  textStyle: {color: 'black'},
   row: {
+    paddingTop: 15,
     padding: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 10,
     paddingRight: 20,
     textAlign: 'center',
-
     alignItems: 'center',
   },
-  searchBarStyle: {
-    // backgroundColor: 'white',
-    marginLeft: 0,
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent',
-  },
-  inputStyle: {
-    // backgroundColor: '#c9c9c9',
-    width: 249,
-    height: 40,
 
-    color: 'black',
-  },
-  /*  container: {
-    height: 60,
-  }, */
-  itemStyle: {
-    marginLeft: 15,
-    padding: 5,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  cardstyle: {
-    borderRadius: 20,
-    width: 280,
-
-    marginLeft: 55,
-    borderColor: 'lightgrey',
-    padding: 10,
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
   cardrow: {
     flexDirection: 'row',
-    paddingTop: 30,
-    //justifyContent: 'space-around',
+    paddingTop: 10,
   },
-  columns: {
-    flexDirection: 'column',
-  },
-  modelCard: {
-    borderRadius: 20,
-    borderColor: 'lightgrey',
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  iconRow: {
-    flexDirection: 'row',
-  },
+
   imgDimensions: {
-    width: 50,
-    height: 50,
-    //paddingLeft: 10,
-  },
-  spaceImages: {
-    flexDirection: 'row',
-    paddingLeft: 10,
-    //paddingRight: 8,
-    padding: 10,
+    width: 45,
+    height: 45,
   },
   spaceImagesthree: {
     flexDirection: 'row',
-    //paddingTop: 6,
-    paddingLeft: 10,
+    paddingTop: 20,
+    paddingLeft: 40,
     padding: 10,
-  },
-  spaceText: {
-    flexDirection: 'row',
-    paddingLeft: 25,
-    paddingRight: 25,
   },
   spaceImagesinSubset: {
-    paddingTop: 30,
-    paddingLeft: 10,
-    //paddingRight: 8,
+    paddingTop: 34,
+    paddingLeft: 20,
     alignContent: 'center',
     alignItems: 'center',
   },
-  circletag: {
-    // display: block,
-    width: 70,
-    height: 70,
-    // backgroundColor: '#add8e6',
-    //textAlign: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-    padding: 10,
-  },
-  img: {
-    height: 100,
-    width: 100,
-    width: 50,
-    height: 50,
-  },
+
   imgDimensionsinSubset: {
-    /*  maxHeight: 100,
-    maxWidth: 100, */
-    width: 40,
-    height: 40,
-    //padding: 10,
-  },
-  ceilingHeightstd: {
-    width: 40,
+    width: 45,
     height: 45,
-    paddingLeft: 20,
-  },
-  ceilingHeightHigh: {
-    width: 40,
-    height: 55,
-    paddingLeft: 20,
-  },
-  ceilingHeightAudi: {
-    width: 40,
-    height: 65,
-    paddingLeft: 20,
   },
   imageBground: {
     backgroundColor: '#add8e6',
     borderRadius: 50,
     width: 70,
-    height: 70,
-    //textAlign: 'center',
+    height: 72,
     alignContent: 'center',
     alignItems: 'center',
     padding: 10,
-  },
-  imgBgroundonclick: {
-    backgroundColor: '#72bcd4',
-    borderRadius: 50,
-    width: 70,
-    height: 70,
-    //textAlign: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-  },
-  IconsText: {
-    textAlign: 'center',
-    paddingLeft: 10,
-    paddingTop: 5,
-  },
-  btncontainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 30,
-  },
-  btn: {
-    //backgroundColor: '#2C76F0',
-    width: 150,
-    height: 40,
-    borderRadius: 50,
-    alignItems: 'center',
-    padding: 10,
-  },
-  btntxt: {
-    color: '#ffffff',
   },
   buttonStyle: {
-    paddingTop: 70,
+    paddingTop: 40,
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingBottom: 20,
   },
 });
