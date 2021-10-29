@@ -160,7 +160,7 @@ export default function getPositiveCasesCountAPI() {
       x={'Interval'}
       y={'AnzahlFaelle'}
       style={{
-        data: {stroke: 'teal', strokeWidth: 3},
+        data: {stroke: '#F86E4A', strokeWidth: 3},
         parent: {border: '1px solid #ccc'},
       }}
       interpolation="catmullRom"
@@ -265,8 +265,8 @@ export default function getPositiveCasesCountAPI() {
         <VictoryChart
           theme={VictoryTheme.material}
           width={390}
-          height={460}
-          domainPadding={{x: [0, 30]}}
+          height={470}
+          domainPadding={1}
           padding={{top: 90, left: 60, right: 30, bottom: 70}}
           containerComponent={
             <VictoryZoomVoronoiContainer
@@ -298,7 +298,7 @@ export default function getPositiveCasesCountAPI() {
           <VictoryAxis
             fixLabelOverlap={true}
             independentAxis
-            tickLabelComponent={<VictoryLabel angle={-45} y={420} />}
+            tickLabelComponent={<VictoryLabel angle={-45} y={430} />}
             style={{
               axis: {stroke: 'black'},
               ticks: {stroke: 'black'},

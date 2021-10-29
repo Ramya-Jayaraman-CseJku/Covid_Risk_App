@@ -41,19 +41,66 @@ const dataOverview = () => {
             <Card containerStyle={styles.cardStyle}>
               <Card.Title style={styles.cardTitle}>Positive Cases</Card.Title>
               <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Granularity:</Text> City-Wise
+                <Text style={styles.subHeading}>Granularity:</Text>
+                {'\n'}
+                District-Wise
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
-                Daily
+                {'\n'}Daily
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Availability:</Text>
-                Lagging By Two Days
+                {'\n'}Lagging By Two Days
               </Text>
               <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Graph Interval:</Text>
-                Week-Month-Year
+                <Text style={styles.subHeading}>Graph Interval: </Text>
+                {'\n'}Week-Month-Year
+              </Text>
+            </Card>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Linking.openURL(vaccination)}>
+            <Card containerStyle={styles.cardStyle}>
+              <Card.Title style={styles.cardTitle}>Vaccination </Card.Title>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Granularity:</Text>
+                {'\n'}State-Wise
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Update Interval:</Text>
+                {'\n'}Daily
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Availability:</Text>
+                {'\n'}Lagging By Two Days
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Graph Interval: </Text>
+                {'\n'}Week-Month-Year
+              </Text>
+            </Card>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.cardRow}>
+          <TouchableOpacity onPress={() => Linking.openURL(REffective)}>
+            <Card containerStyle={styles.cardStyle}>
+              <Card.Title style={styles.cardTitle}>REffective</Card.Title>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Granularity:</Text>
+                {'\n'}Country
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Update Interval:</Text>
+                {'\n'}Daily
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Availability:</Text>
+                {'\n'}Lagging By One Week
+              </Text>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Graph Interval: </Text>
+                {'\n'}Week-Month-Year
               </Text>
             </Card>
           </TouchableOpacity>
@@ -61,62 +108,20 @@ const dataOverview = () => {
             <Card containerStyle={styles.cardStyle}>
               <Card.Title style={styles.cardTitle}> Warning Level </Card.Title>
               <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Granularity:</Text> City-Wise
+                <Text style={styles.subHeading}>Granularity:</Text>
+                {'\n'}City-Wise
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
-                Weekly
+                {'\n'}Weekly
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Availability:</Text>
-                For Specific Date
+                {'\n'}For Specific Date
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Map Interval:</Text>
-                Specific Date
-              </Text>
-            </Card>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.cardRow}>
-          <TouchableOpacity onPress={() => Linking.openURL(vaccination)}>
-            <Card containerStyle={styles.cardStyle}>
-              <Card.Title style={styles.cardTitle}>Vaccination </Card.Title>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Granularity:</Text> State-Wise
-              </Text>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Update Interval:</Text>
-                Daily
-              </Text>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Availability:</Text>
-                Lagging By Two Days
-              </Text>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Graph Interval: </Text>
-                Week-Month-Year
-              </Text>
-            </Card>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => Linking.openURL(REffective)}>
-            <Card containerStyle={styles.cardStyle}>
-              <Card.Title style={styles.cardTitle}>REffective</Card.Title>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Granularity:</Text> Country
-              </Text>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Update Interval:</Text>
-                Daily
-              </Text>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Availability:</Text>
-                Lagging By One Week
-              </Text>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Graph Interval: </Text>
-                Week-Month-Year
+                {'\n'}Specific Date
               </Text>
             </Card>
           </TouchableOpacity>
@@ -130,15 +135,17 @@ const dataOverview = () => {
 
               <View>
                 <Text style={styles.subHeading}>Room:</Text>
-                <Text style={styles.textStyle}>Size ,Ventilation and Ceiling Height</Text>
+                <Text style={styles.textStyle}>
+                  Size ,Ventilation and Ceiling Height
+                </Text>
                 <Text style={styles.subHeading}>People: </Text>
-                <Text style={styles.textStyle}>People Count, Speech Volume and Duration</Text>
+                <Text style={styles.textStyle}>
+                  People Count, Speech Volume and Duration
+                </Text>
                 <Text style={styles.subHeading}>Duration:</Text>
                 <Text style={styles.textStyle}>Stay Duration in Room</Text>
                 <Text style={styles.subHeading}>Own Behavior:</Text>
                 <Text style={styles.textStyle}>Masks and Vaccination</Text>
-                <Text style={styles.subHeading}>COVID-19 Info:</Text>
-                <Text style={styles.textStyle}>Positive Cases and Vaccination Count</Text>
               </View>
             </Card>
           </TouchableOpacity>
@@ -156,11 +163,12 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'black',
+    fontSize: 14,
   },
   Heading: {
     fontWeight: 'bold',
     color: '#0087ff',
-    fontSize: 16,
+    fontSize: 15,
   },
   cardRow: {
     //flex: 1,
@@ -169,9 +177,14 @@ const styles = StyleSheet.create({
   modelCard: {
     borderRadius: 20,
     borderColor: 'lightgrey',
-    paddingBottom: 8,
+    marginRight: 0,
+    marginLeft: 10,
+    width: 370,
+    paddingTop: 6,
+    paddingBottom: 15,
   },
   cardStyle: {
+    paddingTop: 6,
     borderRadius: 20,
     width: 180,
     marginRight: 0,

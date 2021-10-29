@@ -137,7 +137,7 @@ export default function getFullyVaccinatedCountAPI() {
   };
   var MyChart = (
     <VictoryBar
-      style={{data: {fill: 'purple'}}}
+      style={{data: {fill: '#5f00ff'}}}
       barWidth={5}
       data={countryWiseVaccCount}
       x={'Interval'}
@@ -194,7 +194,7 @@ export default function getFullyVaccinatedCountAPI() {
           </Modal>
           <View style={styles.row1}>
             <View>
-              <Text style={styles.heading}>Vaccination Count {'\n'}</Text>
+              <Text style={styles.heading}>Fully Vaccinated Count {'\n'}</Text>
             </View>
           </View>
         </View>
@@ -240,7 +240,7 @@ export default function getFullyVaccinatedCountAPI() {
           theme={VictoryTheme.material}
           width={400}
           height={490}
-          domainPadding={{x: [0, 30]}}
+          domainPadding={10}
           padding={{top: 60, left: 60, right: 30, bottom: 70}}
           containerComponent={
             <VictoryZoomVoronoiContainer
@@ -272,7 +272,7 @@ export default function getFullyVaccinatedCountAPI() {
           <VictoryAxis
             independentAxis
             fixLabelOverlap={true}
-            tickLabelComponent={<VictoryLabel angle={-45} y={450} />}
+            tickLabelComponent={<VictoryLabel angle={-45} y={448} />}
             style={{
               axis: {stroke: 'black'},
               ticks: {stroke: 'black'},

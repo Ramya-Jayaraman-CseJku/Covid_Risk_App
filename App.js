@@ -10,14 +10,13 @@ import {
   View,
 } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import dataOverview from './Screen1Overview';
 import topTabBarCharts from './topTabBar';
 import getWarningLevelDataAPI from './getCoronaWarningLevel';
 import {MainStackNavigator} from './stackNavigation';
-
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -26,71 +25,66 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName="Overview"
       activeColor="#f0edf6"
-      labelStyle={{ fontSize: 12 }}
-      style={{ backgroundColor: 'tomato' }}
-      barStyle={{backgroundColor: '#694fad'}}
-    >
-       <Tab.Screen
-          name="Overview"
-          component={dataOverview}
-          options={{
-            tabBarLabel: 'Overview',
-            tabBarColor: '#226dd3',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons
-                name="database-check"
-                color={color}
-                size={26}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Charts"
-          component={topTabBarCharts}
-          options={{
-            tabBarLabel: 'Charts',
-            tabBarColor: '#008787',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons
-                name="chart-line"
-                color={color}
-                size={26}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="WarnLevel"
-          component={getWarningLevelDataAPI}
-          options={{
-            tabBarLabel: 'WarnLevel',
-            tabBarColor: '#d78700',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons
-                name="map-marker-alert-outline"
-                color={color}
-                size={26}
-              />
-            ),
-          }}
-        />
+      labelStyle={{fontSize: 12}}
+      style={{backgroundColor: 'tomato'}}
+      barStyle={{backgroundColor: '#694fad'}}>
+      <Tab.Screen
+        name="Overview"
+        component={dataOverview}
+        options={{
+          tabBarLabel: 'Overview',
+          tabBarColor: '#005fff',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              name="database-check"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Charts"
+        component={topTabBarCharts}
+        options={{
+          tabBarLabel: 'Charts',
+          tabBarColor: '#00afaf',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="chart-line" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="WarnLevel"
+        component={getWarningLevelDataAPI}
+        options={{
+          tabBarLabel: 'WarnLevel',
+          tabBarColor: '#d78700',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              name="map-marker-alert-outline"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
 
-        <Tab.Screen
-          name="Modal"
-          component={MainStackNavigator}
-          options={{
-            tabBarLabel: 'Modal',
-            tabBarColor: '#8d4bba',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons
-                name="thought-bubble"
-                color={color}
-                size={26}
-              />
-            ),
-          }}
-        />
+      <Tab.Screen
+        name="Modal"
+        component={MainStackNavigator}
+        options={{
+          tabBarLabel: 'Modal',
+          tabBarColor: '#8d4bba',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              name="thought-bubble"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -120,4 +114,3 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
-

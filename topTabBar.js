@@ -15,7 +15,7 @@ function MyTabs() {
       screenOptions={{
         tabBarActiveTintColor: 'white',
         tabBarLabelStyle: {fontSize: 12},
-        tabBarStyle: {backgroundColor: '#226dd3'},
+        tabBarStyle: {backgroundColor: '#005fff'},
       }}>
       <Tab.Screen
         name="PositiveCasesCount"

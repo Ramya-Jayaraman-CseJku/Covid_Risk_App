@@ -6,6 +6,7 @@ import {
   View,
   Pressable,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -21,48 +22,40 @@ import {
   createContainer,
   VictoryLabel,
 } from 'victory-native';
-
+import {Icon, Card} from 'react-native-elements';
+import Collapsible from 'react-native-collapsible';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 
 export default function getReffectiveValue() {
-  const [visible, setVisible] = useState(false);
-
-  const [showLineChart, setShowLineChart] = useState(true);
   const [loading, setLoading] = useState(true);
   const [rEffAustria, setREffAustria] = useState([]);
-
-  const [selectedYear, setSelectedYear] = useState('2021');
-  const [selectedInterval, setSelectedInterval] = useState('Monthly');
-
-  const showMenu = () => setVisible(true);
-  const hideMenu = () => setVisible(false);
-
-  const getSelectedInterval = Interval => {
-    setSelectedInterval(Interval);
-    hideMenu();
-  };
-  const [visibleYear, setVisibleYear] = useState(false);
-
-  const showMenuYear = () => setVisibleYear(true);
-  const hideMenuYear = () => setVisibleYear(false);
-  const getSelectedYear = year => {
-    setSelectedYear(year);
-    hideMenuYear();
-  };
+  const [showRiskInfo, setShowRiskInfo] = useState(true);
   const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
-  const [selectedDomain, setSelectedDomain] = useState();
-  const [zoomDomain, setZoomDomain] = useState();
-  const handleZoom = domain => {
-    setSelectedDomain(domain);
+  const toggleRiskInfo = () => {
+    //Toggling the state of single Collapsible
+    setShowRiskInfo(!showRiskInfo);
   };
-  const handleBrush = domain => {
-    setZoomDomain(domain);
-  };
+  function riskInfo() {
+    return (
+      <View>
+        <Collapsible collapsed={showRiskInfo}>
+          <Text style={styles.RiskInfText}>
+            <Text style={{color: 'black'}}>
+              REffective- Effective Reproductive number. It is defined as the
+              average number of secondary cases that one primary case will
+              generate in a given population, where nobody is either immune or
+              vaccinated. Reffective should always be less than 1 for the virus
+              spread to be under control {'\n'}
+            </Text>
+          </Text>
+        </Collapsible>
+      </View>
+    );
+  }
   const getREffectiveValue = async () => {
     try {
       const response = await fetch(
-        `https://covidinfoapi.appspot.com/api/R_eff_Austria/?year=${selectedYear}&interval=${selectedInterval}`,
+        `https://covidinfoapi.appspot.com/api/R_eff_Austria/?interval=Daily`,
       );
       const json = await response.json();
       setREffAustria(json.data);
@@ -74,11 +67,11 @@ export default function getReffectiveValue() {
   };
   useEffect(() => {
     getREffectiveValue();
-  }, [selectedYear, selectedInterval]);
+  }, []);
   var MyChart = (
     <VictoryLine
       style={{
-        data: {stroke: '#32a846', strokeWidth: 4},
+        data: {stroke: '#00afff', strokeWidth: 4},
         parent: {border: '1px solid #ccc'},
       }}
       data={rEffAustria}
@@ -99,12 +92,16 @@ export default function getReffectiveValue() {
       <View style={styles.container}>
         <View>
           <View style={styles.row1}>
-            <View>
-              <Text style={styles.heading}>
-                R_Effective_Value - Austria{'\n'}
-              </Text>
-            </View>
+            <Text style={styles.heading}>R_Effective_Value {'\n'}</Text>
+            <TouchableOpacity onPress={toggleRiskInfo}>
+              <Icon
+                name="information"
+                type="material-community"
+                color="#ED471C"
+              />
+            </TouchableOpacity>
           </View>
+          {riskInfo()}
         </View>
         <View
           style={{
@@ -112,34 +109,16 @@ export default function getReffectiveValue() {
             textAlign: 'center',
             justifyContent: 'center',
           }}>
-          <Menu
-            visible={visible}
-            anchor={
-              <Text style={styles.textStyle} onPress={showMenu}>
-                {selectedInterval}
-              </Text>
-            }
-            onRequestClose={hideMenu}>
-            <MenuItem
-              onPress={() => getSelectedInterval('Weekly')}
-              textStyle={{color: 'black'}}
-              pressColor="#008787">
-              Group By Week
-            </MenuItem>
-            <MenuItem
-              onPress={() => getSelectedInterval('Monthly')}
-              textStyle={{color: 'black'}}
-              pressColor="#008787">
-              Group By Month
-            </MenuItem>
-          </Menu>
+          <Text style={{fontSize: 15, fontWeight: 'bold', color: 'green'}}>
+            Austria Daily
+          </Text>
         </View>
 
         <VictoryChart
           theme={VictoryTheme.material}
           width={390}
-          height={460}
-          domainPadding={{x: [0, 30]}}
+          height={470}
+          domainPadding={1}
           padding={{top: 60, left: 60, right: 30, bottom: 70}}
           containerComponent={
             <VictoryZoomVoronoiContainer
@@ -168,7 +147,7 @@ export default function getReffectiveValue() {
           <VictoryAxis
             fixLabelOverlap={true}
             independentAxis
-            tickLabelComponent={<VictoryLabel angle={-45} y={420} />}
+            tickLabelComponent={<VictoryLabel angle={-45} y={428} />}
             style={{
               axis: {stroke: 'black'},
               ticks: {stroke: 'black'},
